@@ -1,0 +1,278 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsfonts, amsmath, amssymb, amstext, latexsym}
+\usepackage{graphicx, epsfig}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{exscale}
+\usepackage{amsbsy}
+\usepackage{amsopn}
+\usepackage{fancyhdr}
+
+\usepackage{amsmath, amssymb, amsfonts, amsthm, fouriernc, mathtools}
+% mathtools for: Aboxed (put box on last equation in align envirenment)
+\usepackage{microtype} %improves the spacing between words and letters
+
+\usepackage{graphicx}
+\graphicspath{ {./pics/} {./eps/}}
+\usepackage{epsfig}
+\usepackage{epstopdf}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% COLOR DEFINITIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[svgnames]{xcolor} % Enabling mixing colors and color's call by 'svgnames'
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{MyColor1}{rgb}{0.2,0.4,0.6} %mix personal color
+\newcommand{\textb}{\color{Black} \usefont{OT1}{lmss}{m}{n}}
+\newcommand{\blue}{\color{MyColor1} \usefont{OT1}{lmss}{m}{n}}
+\newcommand{\blueb}{\color{MyColor1} \usefont{OT1}{lmss}{b}{n}}
+\newcommand{\red}{\color{LightCoral} \usefont{OT1}{lmss}{m}{n}}
+\newcommand{\green}{\color{Turquoise} \usefont{OT1}{lmss}{m}{n}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% FONTS AND COLORS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    SECTIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{titlesec}
+\usepackage{sectsty}
+%%%%%%%%%%%%%%%%%%%%%%%%
+%set section/subsections HEADINGS font and color
+\sectionfont{\color{MyColor1}}  % sets colour of sections
+\subsectionfont{\color{MyColor1}}  % sets colour of sections
+
+%set section enumerator to arabic number (see footnotes markings alternatives)
+\renewcommand\thesection{\arabic{section}.} %define sections numbering
+\renewcommand\thesubsection{\thesection\arabic{subsection}} %subsec.num.
+
+%define new section style
+\newcommand{\mysection}{
+\titleformat{\section} [runin] {\usefont{OT1}{lmss}{b}{n}\color{MyColor1}} 
+{\thesection} {3pt} {} } 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		CAPTIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{caption}
+\usepackage{subcaption}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\captionsetup[figure]{labelfont={color=Turquoise}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		!!!EQUATION (ARRAY) --> USING ALIGN INSTEAD
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%using amsmath package to redefine eq. numeration (1.1, 1.2, ...) 
+%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\theequation}{\thesection\arabic{equation}}
+
+%set box background to grey in align environment 
+\usepackage{etoolbox}% http://ctan.org/pkg/etoolbox
+\makeatletter
+\patchcmd{\@Aboxed}{\boxed{#1#2}}{\colorbox{black!15}{$#1#2$}}{}{}%
+\patchcmd{\@boxed}{\boxed{#1#2}}{\colorbox{black!15}{$#1#2$}}{}{}%
+\makeatother
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% DESIGN CIRCUITS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[siunitx, american, smartlabels, cute inductors, europeanvoltages]{circuitikz}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\makeatletter
+\let\reftagform@=\tagform@
+\def\tagform@#1{\maketag@@@{(\ignorespaces\textcolor{red}{#1}\unskip\@@italiccorr)}}
+\renewcommand{\eqref}[1]{\textup{\reftagform@{\ref{#1}}}}
+\makeatother
+\usepackage{hyperref}
+\hypersetup{colorlinks=true}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PREPARE TITLE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{\blue Principes et Méthodes Statistiques \\
+\blueb TP 2017}
+\author{Pierre Bouvier, Nolwenn Cadic, Maxime Gourgoulhon}
+\date{\today}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\noi}{\noindent}
+\newcommand{\dsp}{\displaystyle}
+
+\textheight 25cm
+\textwidth 16cm
+\oddsidemargin 0cm
+\evensidemargin 0cm
+\topmargin 0cm
+\hoffset -0mm
+\voffset -20mm
+
+
+\pagestyle{plain}
+
+
+\begin{document}
+
+\maketitle
+\baselineskip7mm
+
+% \noi ENSIMAG $1^{\footnotesize \mbox{ère}}$ année   \hfill Mars 2017
+
+
+\vspace{1cm}
+
+
+\begin{center}
+{\Large \bf Principes et Méthodes Statistiques 
+
+\vspace{3mm}
+
+TP 2017
+
+\vspace{3mm}
+
+}
+\end{center}
+
+\noi \rule[0.5ex]{\textwidth}{0.1mm}
+
+
+\section*{Introduction au problème}
+
+Les données considérées sont issues d'une démarche d'analyse de signaux oculométri-ques, c'est-à-dire de signaux de suivi du mouvement des yeux au cours du temps. Ces signaux ont été mesurés sur des participants lors de tâches consistant à lire des textes traitant de thèmes prédéfinis : football, chasse aux oiseaux, physique nucléaire, art contemporain, etc... 
+L'objectif est que le lecteur identifie le thème du texte le plus vite possible.
+
+Lors de la lecture, deux types de mouvements d'yeux alternent : la fixation, qui correspond à la lecture proprement dite d'un mot ou deux voire moins, et où les yeux sont quasi-immobiles, et la saccade, qui est un déplacement très rapide portant les yeux vers un autre mot ou une autre partie d'un mot long.
+
+On considère un premier groupe de $n=227$ personnes à qui on a fait lire $n$ textes pris au hasard dans une première série de textes. On mesure pour chaque personne le nombre $X$ de fixations nécessaires pour identifier le type du texte lu. Les données sont fournies dans le fichier {\it groupe1.txt}.
+Le fichier {\it groupe2.txt} contient des données similaires pour un second groupe de $m=168$ personnes à qui on a fait lire $m$ textes pris au hasard dans une autre série de textes.
+
+L'objectif du TP est d'analyser ces données et de comparer les 2 groupes. On propose de modéliser la loi de probabilité de $X$ par une loi géométrique ou une loi binomiale négative.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Analyse d'échantillons de loi binomiale négative}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Une variable aléatoire $X$ est de loi binomiale négative ${\cal BN}(r,p)$ de paramètres $r \in \mathbb{N}^*$ et $p \in [0, 1]$  si elle est à valeurs dans $ \{r, r+1, ...\}$ et que :
+$$P(X=x) = \binom{x-1}{r-1}(1-p)^{x-r}p^r, \, \forall x \in \{r, r+1, ...\}$$
+
+Son espérance est $E[X]={\dsp \frac{r}{p}}$ et sa variance est $Var[X]={\dsp \frac{r(1-p)}{p^2}}$.
+
+En {\tt R}, {\tt rnbinom(n,r,p)} simule un échantillon de taille $n$ d'une variable aléatoire $Y$ telle que $Y+r$ est de loi ${\cal BN}(r,p)$. 
+
+La loi géométrique ${\cal G}(p)$ est la loi ${\cal BN}(1,p)$. En {\tt R}, {\tt rgeom(n,p)} simule un échantillon de taille $n$ d'une variable aléatoire $Y$ telle que $Y+1$ est de loi ${\cal G}(p)$.
+
+On considère un échantillon $X_1, \ldots, X_n$ de variables aléatoires indépendantes et de même loi ${\cal BN}(r,p)$.
+
+Dans un premier temps, on suppose que le paramètre $r$ est connu. 
+
+\vspace{3mm}
+
+\begin{enumerate}
+
+\renewcommand{\labelenumi}{\arabic{section}.\arabic{enumi}.}
+
+\item Estimer $p$ par la méthode des moments, puis par la méthode de maximum de vraisemblance. Montrer que les deux estimateurs sont égaux. On notera $\hat{p}_n$ cet estimateur.
+
+\vspace{3mm}
+
+\item Appliquer le théorème central-limite à $\bar{X}_n$. En déduire un intervalle de confiance bilatéral asymptotique de seuil $\alpha$ pour $p$.
+
+\vspace{3mm}
+
+\item Dans le cas de la loi géométrique ($r=1$), construire le graphe de probabilités avec la méthode usuelle basée sur la fonction de répartition. En déduire une estimation graphique $p_{g_1}$ de $p$. Evaluer la qualité de cette méthode sur la base de jeux de données simulées.
+
+\vspace{3mm}
+
+\item Dans le cas de la loi binomiale négative avec $r>1$, cette méthode ne fonctionne pas car la fonction de répartition n'a pas d'expression simple. On propose alors une méthode similaire basée sur un autre critère.
+
+\begin{enumerate}
+
+\vspace{3mm}
+
+\item Quand $X$ est de loi ${\cal BN}(r,p)$, calculer ${\dsp \frac{P(X=x)}{P(X=x+1)}}$. 
+
+\vspace{3mm}
+
+\item Proposer une méthode permettant d'évaluer à partir d'un nuage de points si la loi Binomiale Négative est un modèle plausible. En déduire deux estimations graphiques de $p$, $p_{g_2}$ et $p_{g_3}$.
+
+\vspace{3mm}
+
+\item Evaluer la qualité de cette méthode sur la base de jeux de données simulées.
+
+\end{enumerate}
+
+\vspace{3mm}
+
+\hspace{-5mm} Dans un deuxième temps, on considère que les 2 paramètres $p$ et $r$ sont inconnus. 
+
+\vspace{3mm}
+
+\item Calculer les estimateurs de $p$ et $r$ par la méthode des moments, $\tilde{p}_n$ et $\tilde{r}_n$.
+
+\vspace{3mm}
+
+\item Proposer une méthode numérique permettant de calculer les estimateurs de maximum de vraisemblance $\hat{p}_n$ et $\hat{r}_n$.
+
+\end{enumerate}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Analyse des deux jeux de données}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{enumerate}
+
+\renewcommand{\labelenumi}{\arabic{section}.\arabic{enumi}.}
+
+\item Effectuer une analyse de statistique descriptive des 2 jeux de données, incluant des représentations graphiques et des calculs d'indicateurs statistiques. Commenter les résultats.
+
+\vspace{3mm}
+
+\item Les lois géométrique et binomiale négative sont-elles des modèles plausibles pour ces deux jeux de données ? Pour chaque jeu de données, choisir un modèle pertinent, estimer ses paramètres de toutes les façons possibles et, quand c'est possible, donner un intervalle de confiance asymptotique de seuil $\alpha=5\%$ pour ces paramètres.
+
+\vspace{3mm}
+
+\item Pour les deux jeux de données, estimer le nombre moyen de fixations nécessaires pour identifier le type du texte lu et estimer la probabilité que ce nombre soit supérieur à 10. Quelle conclusion générale tirer de cette analyse ?
+
+\end{enumerate}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Vérifications expérimentales à base de simulations}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{enumerate}
+
+\renewcommand{\labelenumi}{\arabic{section}.\arabic{enumi}.}
+
+\item Choisir $p$, $n$, $m$ et $\alpha$. Simuler $m$ d'échantillons de taille $n$ de la loi ${\cal G}(p)$. Pour chacun d'entre eux, calculer l'intervalle de confiance asymptotique de seuil $\alpha$ pour $p$ obtenu dans la question 2.2. Comparer la proportion d'intervalle contenant la vraie valeur de $p$ à $1-\alpha$. Quel est l'impact du choix des valeurs de $p$, $n$, $m$ et $\alpha$ ?
+
+\vspace{3mm}
+
+\item Vérification de la loi faible des grands nombres. Simuler $m$ échantillons de taille $n$ de la loi ${\cal G}(p)$. Calculer le nombre de fois où l'écart en valeur absolue entre la moyenne empirique et l'espérance de la loi simulée est supérieure à un $\epsilon$ à choisir. Faire varier $n$ et conclure.
+
+\vspace{3mm}
+
+\item Vérification du théorème central-limite. Simuler $m$ échantillons de taille $n$ de la loi ${\cal G}(p)$. Sur l'échantillon des $m$ moyennes empiriques, tracer un histogramme et un graphe de probabilités pour la loi normale. Faire varier $n$ en partant de $n=5$ et conclure.
+
+\vspace{3mm}
+
+\item Choisir $r$, $p$, $n$ et $m$. Simuler $m$ échantillons de taille $n$ de la loi ${\cal BN}(r,p)$. Pour chaque échantillon, calculer les estimateurs des moments de $r$ et $p$, $\tilde{r}_n$ et $\tilde{p}_n$. Utilisez ces simulations pour évaluer le biais et l'erreur quadratique moyenne de ces estimateurs. Faire varier $n$ et commenter les résultats.
+
+\end{enumerate}
+
+\end{document}
