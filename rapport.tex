@@ -53,8 +53,8 @@
 
 %define new section style
 \newcommand{\mysection}{
-\titleformat{\section} [runin] {\usefont{OT1}{lmss}{b}{n}\color{MyColor1}} 
-{\thesection} {3pt} {} } 
+\titleformat{\section} [runin] {\usefont{OT1}{lmss}{b}{n}\color{MyColor1}}
+{\thesection} {3pt} {} }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		CAPTIONS
@@ -67,11 +67,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		!!!EQUATION (ARRAY) --> USING ALIGN INSTEAD
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%using amsmath package to redefine eq. numeration (1.1, 1.2, ...) 
+%using amsmath package to redefine eq. numeration (1.1, 1.2, ...)
 %%%%%%%%%%%%%%%%%%%%%%%%
 \renewcommand{\theequation}{\thesection\arabic{equation}}
 
-%set box background to grey in align environment 
+%set box background to grey in align environment
 \usepackage{etoolbox}% http://ctan.org/pkg/etoolbox
 \makeatletter
 \patchcmd{\@Aboxed}{\boxed{#1#2}}{\colorbox{black!15}{$#1#2$}}{}{}%
@@ -134,7 +134,7 @@
 
 
 \begin{center}
-{\Large \bf Principes et Méthodes Statistiques 
+{\Large \bf Principes et Méthodes Statistiques
 
 \vspace{3mm}
 
@@ -150,7 +150,7 @@ TP 2017
 
 \section*{Introduction au problème}
 
-Les données considérées sont issues d'une démarche d'analyse de signaux oculométri-ques, c'est-à-dire de signaux de suivi du mouvement des yeux au cours du temps. Ces signaux ont été mesurés sur des participants lors de tâches consistant à lire des textes traitant de thèmes prédéfinis : football, chasse aux oiseaux, physique nucléaire, art contemporain, etc... 
+Les données considérées sont issues d'une démarche d'analyse de signaux oculométri-ques, c'est-à-dire de signaux de suivi du mouvement des yeux au cours du temps. Ces signaux ont été mesurés sur des participants lors de tâches consistant à lire des textes traitant de thèmes prédéfinis : football, chasse aux oiseaux, physique nucléaire, art contemporain, etc...
 L'objectif est que le lecteur identifie le thème du texte le plus vite possible.
 
 Lors de la lecture, deux types de mouvements d'yeux alternent : la fixation, qui correspond à la lecture proprement dite d'un mot ou deux voire moins, et où les yeux sont quasi-immobiles, et la saccade, qui est un déplacement très rapide portant les yeux vers un autre mot ou une autre partie d'un mot long.
@@ -170,13 +170,13 @@ $$P(X=x) = \binom{x-1}{r-1}(1-p)^{x-r}p^r, \, \forall x \in \{r, r+1, ...\}$$
 
 Son espérance est $E[X]={\dsp \frac{r}{p}}$ et sa variance est $Var[X]={\dsp \frac{r(1-p)}{p^2}}$.
 
-En {\tt R}, {\tt rnbinom(n,r,p)} simule un échantillon de taille $n$ d'une variable aléatoire $Y$ telle que $Y+r$ est de loi ${\cal BN}(r,p)$. 
+En {\tt R}, {\tt rnbinom(n,r,p)} simule un échantillon de taille $n$ d'une variable aléatoire $Y$ telle que $Y+r$ est de loi ${\cal BN}(r,p)$.
 
 La loi géométrique ${\cal G}(p)$ est la loi ${\cal BN}(1,p)$. En {\tt R}, {\tt rgeom(n,p)} simule un échantillon de taille $n$ d'une variable aléatoire $Y$ telle que $Y+1$ est de loi ${\cal G}(p)$.
 
 On considère un échantillon $X_1, \ldots, X_n$ de variables aléatoires indépendantes et de même loi ${\cal BN}(r,p)$.
 
-Dans un premier temps, on suppose que le paramètre $r$ est connu. 
+Dans un premier temps, on suppose que le paramètre $r$ est connu.
 
 \vspace{3mm}
 
@@ -190,6 +190,8 @@ Dans un premier temps, on suppose que le paramètre $r$ est connu.
 
 \item Appliquer le théorème central-limite à $\bar{X}_n$. En déduire un intervalle de confiance bilatéral asymptotique de seuil $\alpha$ pour $p$.
 
+$$ IC = \left[ \frac{r}{\bar{X}_n} - u_{\alpha} \sqrt{r\frac{\bar{X}_n - r}{n\bar{X}_n^3}} ,\,\, \frac{r}{\bar{X}_n} + u_{\alpha} \sqrt{r\frac{\bar{X}_n - r}{n\bar{X}_n^3}}  \right] $$
+
 \vspace{3mm}
 
 \item Dans le cas de la loi géométrique ($r=1$), construire le graphe de probabilités avec la méthode usuelle basée sur la fonction de répartition. En déduire une estimation graphique $p_{g_1}$ de $p$. Evaluer la qualité de cette méthode sur la base de jeux de données simulées.
@@ -202,7 +204,7 @@ Dans un premier temps, on suppose que le paramètre $r$ est connu.
 
 \vspace{3mm}
 
-\item Quand $X$ est de loi ${\cal BN}(r,p)$, calculer ${\dsp \frac{P(X=x)}{P(X=x+1)}}$. 
+\item Quand $X$ est de loi ${\cal BN}(r,p)$, calculer ${\dsp \frac{P(X=x)}{P(X=x+1)}}$.
 
 \vspace{3mm}
 
@@ -216,7 +218,7 @@ Dans un premier temps, on suppose que le paramètre $r$ est connu.
 
 \vspace{3mm}
 
-\hspace{-5mm} Dans un deuxième temps, on considère que les 2 paramètres $p$ et $r$ sont inconnus. 
+\hspace{-5mm} Dans un deuxième temps, on considère que les 2 paramètres $p$ et $r$ sont inconnus.
 
 \vspace{3mm}
 
