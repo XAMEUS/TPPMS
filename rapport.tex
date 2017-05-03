@@ -241,10 +241,15 @@ $$\frac{P(X=x)}{P(X=x+1)} = \frac{\binom{x-1}{r-1} (1-p)^{x-r} p^{r}}{\binom{x}{
 
 \item Calculer les estimateurs de $p$ et $r$ par la méthode des moments, $\tilde{p}_n$ et $\tilde{r}_n$.
 
+\textbf{Réponse:\\}
+On a, $ \dsp \frac{Var[X]}{E[X]} = \frac{1-p}{n} = \frac{1}{p} - 1 \Rightarrow \tilde{p}_n = \frac{\bar{X}_n}{S_n+\bar{X}_n} $ \\
+Puisque $ r= p E[X]$, on obtient $\dsp \tilde{r}_n = \frac{ \bar{X}_n^2}{S_n + \bar{X}_n} $
 \vspace{3mm}
 
 \item Proposer une méthode numérique permettant de calculer les estimateurs de maximum de vraisemblance $\hat{p}_n$ et $\hat{r}_n$.
 
+\textbf{Réponse :\\}
+On estime p comme tout à l'heure (question 1.4 (b)
 \end{enumerate}
 
 
