@@ -14,7 +14,6 @@
 \usepackage{microtype} %improves the spacing between words and letters
 
 \usepackage{graphicx}
-\graphicspath{ {./pics/} {./eps/}}
 \usepackage{epsfig}
 \usepackage{epstopdf}
 
@@ -32,7 +31,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-
+\usepackage{fullpage}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{caption} 
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{amssymb}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% FONTS AND COLORS
@@ -201,6 +206,12 @@ $$ IC = \left[ \frac{r}{\bar{X}_n} - u_{\alpha} \sqrt{r\frac{\bar{X}_n - r}{n\ba
 \vspace{3mm}
 
 \item Dans le cas de la loi géométrique ($r=1$), construire le graphe de probabilités avec la méthode usuelle basée sur la fonction de répartition. En déduire une estimation graphique $p_{g_1}$ de $p$. Evaluer la qualité de cette méthode sur la base de jeux de données simulées.
+
+\begin{center}
+\includegraphics[width=15cm]{{{graphics/q1.3}.eps}}
+\captionof{figure}{Titre}
+\label{fig1}
+\end{center}
 
 \textbf{Réponse : \\}
 Calcul de la fonction de répartition pour le graphe : $$ F(k) = P(X \leq k) = \sum_{i=1}^{k} q^{i-1}p = p\sum_{i=0}^{n-1} q^{i} = 1 - q^{k}$$
