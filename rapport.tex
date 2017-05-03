@@ -18,7 +18,6 @@
 \usepackage{epsfig}
 \usepackage{epstopdf}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% COLOR DEFINITIONS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -187,7 +186,12 @@ Dans un premier temps, on suppose que le paramètre $r$ est connu.
 \item Estimer $p$ par la méthode des moments, puis par la méthode de maximum de vraisemblance. Montrer que les deux estimateurs sont égaux. On notera $\hat{p}_n$ cet estimateur.
 
 \textbf{Réponse :\\}
-\uline{méthode des moments :} $E[X] = \frac{r}{p} \Rightarrow p = \frac{e}{E[X]} \Rightarrow \hat{p}_n = \frac{r}{\bar{X}_n} $
+\underline{méthode des moments :} $E[X] = \dsp \frac{r}{p} \Rightarrow p = \frac{e}{E[X]} \Rightarrow \hat{p}_n = \frac{r}{\bar{X}_n} $ \\
+\underline{méthode du maximum de vraisemblance :} \\
+Soit  la fonction de vraisemblance $\mathcal{L}(p, x_{1}, ..., x_{n})$,\\$$\mathcal{L}(p, x_{1}, ... , x_{n}) = \prod_{i=1}^{n}P(X=x_{i}, p)  = \prod_{i=1}^n \binom{x_i-1}{r-1}(1-p)^{x_i-r}p^r$$ \\
+On cherche à trouver le minimum de cette fonction par rapport à p. \\
+\[\frac{\partial{ln(\mathcal{L}(p, x_{1}, ... , x_{n}))}}{\partial{p}} = -\sum_{i=1}^{n} \frac{x_{i}}{1-p} + \frac{rn}{p(1-p)}\]
+\[\frac{\partial{ln(\mathcal{L}(p, x_{1}, ... , x_{n}))}}{\partial{p}} = 0 \Rightarrow \frac{rn}{p} = -\sum_{i=1}{n} x_{i} \Rightarrow \hat{p}_n = \frac{r}{\bar{X}_n}\]
 \vspace{3mm}
 
 \item Appliquer le théorème central-limite à $\bar{X}_n$. En déduire un intervalle de confiance bilatéral asymptotique de seuil $\alpha$ pour $p$.
@@ -197,6 +201,11 @@ $$ IC = \left[ \frac{r}{\bar{X}_n} - u_{\alpha} \sqrt{r\frac{\bar{X}_n - r}{n\ba
 \vspace{3mm}
 
 \item Dans le cas de la loi géométrique ($r=1$), construire le graphe de probabilités avec la méthode usuelle basée sur la fonction de répartition. En déduire une estimation graphique $p_{g_1}$ de $p$. Evaluer la qualité de cette méthode sur la base de jeux de données simulées.
+
+\textbf{Réponse : \\}
+Calcul de la fonction de répartition pour le graphe : $$ F(k) = P(X \leq k) = \sum_{i=1}^{k} q^{i-1}p = p\sum_{i=0}^{n-1} q^{i} = 1 - q^{k}$$
+On a $$ 1 - F(k) = q_{k} \Rightarrow ln(1-F(k)) = k ln(q)$$
+On pose $H(x) = ln(1-x)$ et $g(x) = x$ et on obtient comme graphe de probabilité pour la fonction de répartition le nuage de points $ (g(x_i^{*}), \; h(\frac{i}{n})) \quad \forall i \in \llbracket 1; n \rrbracket $
 
 \vspace{3mm}
 
@@ -208,10 +217,16 @@ $$ IC = \left[ \frac{r}{\bar{X}_n} - u_{\alpha} \sqrt{r\frac{\bar{X}_n - r}{n\ba
 
 \item Quand $X$ est de loi ${\cal BN}(r,p)$, calculer ${\dsp \frac{P(X=x)}{P(X=x+1)}}$.
 
+\textbf{Réponse :\\}
+$$\frac{P(X=x)}{P(X=x+1)} = \frac{\binom{x-1}{r-1} (1-p)^{x-r} p^{r}}{\binom{x}{r-1} (1-p)^{x-r+1} p^{r}} = \frac{1}{1-p} \frac{x-r+1}{x}$$
+
 \vspace{3mm}
 
 \item Proposer une méthode permettant d'évaluer à partir d'un nuage de points si la loi Binomiale Négative est un modèle plausible. En déduire deux estimations graphiques de $p$, $p_{g_2}$ et $p_{g_3}$.
 
+\textbf{Réponse :\\}
+\underline{1ère proposition :} En traçant les points $\left({\dsp \frac{x-r+1}{x}; \ \frac{P(x=X)}{P(X=x+1}} \right)$ pour tous les x. On obtient la pente $\dsp \frac{1}{1-p}$ et on peut facilement trouver p \\
+\underline{2nde proposition :} En remarquant que $\dsp \frac{P(X=x)x}{P(X=x+1) (x-r+1)} = \frac{1}{1-p} $, on trace les points $\left(x, \dsp \frac{P(X=x)x}{P(X=x+1) (x-r+1)} \right) $ et on cherche la moyenne qui devrait correspondre à $ \dsp \frac{1}{1-p} $ 
 \vspace{3mm}
 
 \item Evaluer la qualité de cette méthode sur la base de jeux de données simulées.
