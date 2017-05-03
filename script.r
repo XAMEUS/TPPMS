@@ -28,7 +28,8 @@ F<-function(k)
 n = 10
 m = 5
 k = seq(1,5,1)
-plot(k, F(k))
+plot(k, F(k))mi
+
 lines(k, F(k), type="s")
 
 h<-function(x)
@@ -46,5 +47,5 @@ plot(x, y)
 x = head(x, -1)
 y = head(y, -1)
 reg<-lm(y~x)
-lines(abs, fitted.values(reg))
+lines(x, fitted.values(reg))
 
