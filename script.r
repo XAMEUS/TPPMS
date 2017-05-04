@@ -49,3 +49,16 @@ y = head(y, -1)
 reg<-lm(y~x)
 lines(x, fitted.values(reg))
 
+############
+# Partie 3 #
+############
+
+m = 1000000
+n = 1000000
+p = 0.1
+l = numeric(m)
+for (i in 1:m)
+{
+  l[i] = sum(rgeom(n, p))
+}
+hist(l)
