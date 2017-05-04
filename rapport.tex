@@ -207,17 +207,17 @@ $$ IC = \left[ \frac{r}{\bar{X}_n} - u_{\alpha} \sqrt{r\frac{\bar{X}_n - r}{n\ba
 
 \item Dans le cas de la loi géométrique ($r=1$), construire le graphe de probabilités avec la méthode usuelle basée sur la fonction de répartition. En déduire une estimation graphique $p_{g_1}$ de $p$. Evaluer la qualité de cette méthode sur la base de jeux de données simulées.
 
-\begin{center}
-\includegraphics[width=15cm]{{{graphics/q1.3}.eps}}
-\captionof{figure}{Titre}
-\label{fig1}
-\end{center}
-
 \textbf{Réponse : \\}
 Calcul de la fonction de répartition pour le graphe : $$ F(k) = P(X \leq k) = \sum_{i=1}^{k} q^{i-1}p = p\sum_{i=0}^{n-1} q^{i} = 1 - q^{k}$$
 On a $$ 1 - F(k) = q_{k} \Rightarrow ln(1-F(k)) = k ln(q)$$
 On pose $H(x) = ln(1-x)$ et $g(x) = x$ et on obtient comme graphe de probabilité pour la fonction de répartition le nuage de points $ (g(x_i^{*}), \; h(\frac{i}{n})) \quad \forall i \in \llbracket 1; n \rrbracket $
-
+\begin{center}
+\includegraphics[width=15cm]{{{graphics/q1.3}.eps}}
+% \captionof{figure}{Graphe de probabilités avec la méthode basée sur la fonction de répartition}
+\label{fig1}
+\end{center}
+Après une régression affine, nous avons comme pente: $-0.16344$. \\
+Ainsi on estime graphiquement $p_{g_1} = e^{-0.16344} = 0.84922$.
 \vspace{3mm}
 
 \item Dans le cas de la loi binomiale négative avec $r>1$, cette méthode ne fonctionne pas car la fonction de répartition n'a pas d'expression simple. On propose alors une méthode similaire basée sur un autre critère.
