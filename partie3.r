@@ -4,7 +4,7 @@
 
 # q3.2
 
-q3 <- function(n) {
+q3 <- function(n, e) {
   m = 1000
   p = 0.1789
   l = numeric(m)
@@ -12,7 +12,6 @@ q3 <- function(n) {
   {
     l[i] = sum(rgeom(n, p))
   }
-  e = 10
   c = 0
   for (i in 1:m)
   {
@@ -23,10 +22,16 @@ q3 <- function(n) {
   }
   return (c/m)
 }
-x = seq(10, 200, 10)
+
+x = seq(1, 100)
 y = x
-for (i in seq(1, 20))
+e = 1.333333
+for (i in seq(1, 100))
 {
-  y[i] = q3(i)
+  y[i] = q3(x[i], e)
 }
 plot(x, y)
+title(main = expression(epsilon ~ " = " ~ 1.333333))
+
+# q3.3
+
