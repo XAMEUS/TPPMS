@@ -34,4 +34,15 @@ plot(x, y)
 title(main = expression(epsilon ~ " = " ~ 1.333333))
 
 # q3.3
-
+simu <- function(n)
+{
+  m = 1000
+  p = 0.1789
+  l = numeric(m)
+  for (i in 1:m)
+  {
+    l[i] = sum(rgeom(n, p))
+  }
+  return (l)
+}
+hist(simu(5)) # TODO 5 -> ....
