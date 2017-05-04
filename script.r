@@ -112,6 +112,9 @@ lines(x, fitted.values(reg))
 coeff = coef(reg)
 p = 1 - exp(coeff[2])
 
+# calcul de E[X] pour le groupe 1
+E <- 1/p
+
 # calcul de l'intervalle de confiance au seuil de 5% d'après la 
 # formule de la question 1.2
 alpha<- 0.05
@@ -144,7 +147,7 @@ graphe_proba_empirique <- function(groupe){
   x <- c()
   y <- c()
   for (i in 1: length(proba_empirique)-1){
-    if (proba_empirique[i+1] != 0){
+    if (proba_empirique[i+1] != 0 && proba_empirique[i] != 0){
       x = append(x, i)
       y = append(y, i*proba_empirique[i]/proba_empirique[i+1])
     }
@@ -158,8 +161,22 @@ graphe_proba_empirique <- function(groupe){
 
 graphe_proba_empirique(groupe2)
 
+# calcul de p pour le groupe 2
+# suivant la loi binomiale négative
+
+p <- 1 - 1/graphe_proba_empirique(groupe2)[2]
+
+# Calcul de E[X] pour le groupe 2
+E <- 5/p
+
+# Probabilité que le nombre de fixations soit
+# supérieur à 10 pour groupe 1
+p_10 <- length(groupe1[groupe1>=10])/length(groupe1)
 
 
+# Probabilité que le nombre de fixations soit
+# supérieur à 10 pour groupe 2
+p_10 <- length(groupe2[groupe2>=10])/length(groupe2)
 
 
 ############
