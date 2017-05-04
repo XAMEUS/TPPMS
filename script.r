@@ -14,7 +14,8 @@ enumerate <- function(X, FUN, ...) {
 ###############
 
 
-
+groupe1 = scan("./echantillons/groupe1.txt", what=integer(), sep="\n")
+groupe2 = scan("./echantillons/groupe2.txt", what=integer(), sep="\n")
 
 ####################
 # Partie 2
@@ -72,8 +73,7 @@ histoeff(groupe2)
 
 # Question 2.2
 
-groupe1 = scan("./echantillons/groupe1.txt", what=integer(), sep="\n")
-groupe2 = scan("./echantillons/groupe2.txt", what=integer(), sep="\n")
+
 
 r = 1
 p = 0.5 #Â TODO
@@ -120,6 +120,47 @@ n = length(groupe1)
 u_alpha = qnorm(1-alpha/2)
 borne_inf = 1/xn - u_alpha*sqrt((xn-1)/(n*xn**3))
 borne_sup = 1/xn + u_alpha*sqrt((xn -1)/(n*xn**3))
+
+
+# groupe 2
+
+# Fonction permettant de calculer la probabilité empirique 
+# Pour le groupe 2
+
+probabilite_empirique <- function(groupe){
+  
+  n <- max(groupe)
+  liste <-c()
+  for (i in 1:n){
+    liste[i] = sum(groupe == i)
+  }
+  return(liste/length(groupe))
+}
+
+probabilite_empirique(groupe1)
+
+graphe_proba_empirique <- function(groupe){
+  proba_empirique <- probabilite_empirique(groupe)
+  x <- c()
+  y <- c()
+  for (i in 1: length(proba_empirique)-1){
+    if (proba_empirique[i+1] != 0){
+      x = append(x, i)
+      y = append(y, i*proba_empirique[i]/proba_empirique[i+1])
+    }
+  }
+  plot(x, y)
+  reg<-lm(y~x)
+  lines(x, fitted.values(reg))
+  return(coef(reg))
+  
+}
+
+graphe_proba_empirique(groupe2)
+
+
+
+
 
 ############
 # Partie 3 #
