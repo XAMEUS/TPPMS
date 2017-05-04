@@ -25,11 +25,11 @@ groupe2 = scan("./echantillons/groupe2.txt", what=integer(), sep="\n")
 groupe1_ordonne = sort(groupe1)
 groupe2_ordonne = sort(groupe2)
 
-# minimum, 1er quartile, médianne,
+# minimum, 1er quartile, médianne, 
 #moyenne, 3ème quartile et max de groupe1
 summary(groupe1)
 
-# minimum, 1er quartile, médianne,
+# minimum, 1er quartile, médianne, 
 #moyenne, 3ème quartile et max de groupe1
 summary(groupe2)
 
@@ -57,7 +57,12 @@ histoeff <- function(x, xlim=NULL, ...)
 }
 
 #Histogramme à classe de même effectif groupe1
-histoeff(groupe1)
+#histoeff(groupe1)
+a0<-min(groupe1)-0.025*(max(groupe1)-min(groupe1))
+a5<-max(groupe1)+0.025*(max(groupe1)-min(groupe1))
+bornes<-seq(a0,a5,(a5-a0)/5)
+borneseff<-c(a0,quantile(groupe1,seq(1/5,4/5,1/5)),a5)
+hist(groupe1, prob=T, breaks=borneseff)
 
 # Histogramme à classe de même largeur groupe2
 n2 = length(groupe2_ordonne)
@@ -68,7 +73,12 @@ bornes <- seq(a0, ak, (ak - a0)/k)
 hist(groupe2_ordonne, prob=T, breaks=bornes)
 
 #Histogramme à classe de même effectif groupe2
-histoeff(groupe2)
+#histoeff(groupe2)
+a0<-min(groupe2)-0.025*(max(groupe2)-min(groupe2))
+a5<-max(groupe2)+0.025*(max(groupe2)-min(groupe2))
+bornes<-seq(a0,a5,(a5-a0)/5)
+borneseff<-c(a0,quantile(groupe2,seq(1/5,4/5,1/5)),a5)
+hist(groupe2, prob=T, breaks=borneseff)
 
 # Question 2.2
 
@@ -107,11 +117,11 @@ y = head(y, -1)
 reg<-lm(y~x)
 lines(x, fitted.values(reg))
 
-# approximation de p
+# approximation de p 
 coeff = coef(reg)
 p = 1 - exp(coeff[2])
 
-# calcul de l'intervalle de confiance au seuil de 5% d'après la
+# calcul de l'intervalle de confiance au seuil de 5% d'après la 
 # formule de la question 1.2
 alpha<- 0.05
 xn = mean(groupe1)
@@ -123,11 +133,11 @@ borne_sup = 1/xn + u_alpha*sqrt((xn -1)/(n*xn**3))
 
 # groupe 2
 
-# Fonction permettant de calculer la probabilité empirique
+# Fonction permettant de calculer la probabilité empirique 
 # Pour le groupe 2
 
 probabilite_empirique <- function(groupe){
-
+  
   n <- max(groupe)
   liste <-c()
   for (i in 1:n){
@@ -152,25 +162,7 @@ graphe_proba_empirique <- function(groupe){
   reg<-lm(y~x)
   lines(x, fitted.values(reg))
   return(coef(reg))
-
+  
 }
 
 graphe_proba_empirique(groupe2)
-
-
-
-
-
-############
-# Partie 3 #
-############
-
-m = 1000000
-n = 1000000
-p = 0.1
-l = numeric(m)
-for (i in 1:m)
-{
-  l[i] = sum(rgeom(n, p))
-}
-hist(l)
