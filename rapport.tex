@@ -34,7 +34,7 @@
 \usepackage{fullpage}
 \usepackage{amsmath}
 \usepackage{graphicx}
-\usepackage{caption}
+\usepackage{caption} 
 \usepackage{amsthm}
 \usepackage{float}
 \usepackage{amssymb}
@@ -207,17 +207,12 @@ $$ IC = \left[ \frac{r}{\bar{X}_n} - u_{\alpha} \sqrt{r\frac{\bar{X}_n - r}{n\ba
 
 \item Dans le cas de la loi géométrique ($r=1$), construire le graphe de probabilités avec la méthode usuelle basée sur la fonction de répartition. En déduire une estimation graphique $p_{g_1}$ de $p$. Evaluer la qualité de cette méthode sur la base de jeux de données simulées.
 
+
 \textbf{Réponse : \\}
 Calcul de la fonction de répartition pour le graphe : $$ F(k) = P(X \leq k) = \sum_{i=1}^{k} q^{i-1}p = p\sum_{i=0}^{n-1} q^{i} = 1 - q^{k}$$
-On a $$ 1 - F(k) = q_{k} \Rightarrow ln(1-F(k)) = k ln(q)$$
+On a $$ 1 - F(k) = q^{k} \Rightarrow ln(1-F(k)) = k ln(q)$$
 On pose $H(x) = ln(1-x)$ et $g(x) = x$ et on obtient comme graphe de probabilité pour la fonction de répartition le nuage de points $ (g(x_i^{*}), \; h(\frac{i}{n})) \quad \forall i \in \llbracket 1; n \rrbracket $
-\begin{center}
-\includegraphics[width=15cm]{{{graphics/q1.3}.eps}}
-% \captionof{figure}{Graphe de probabilités avec la méthode basée sur la fonction de répartition}
-\label{fig1}
-\end{center}
-Après une régression affine, nous avons comme pente: $-0.16344$. \\
-Ainsi on estime graphiquement $p_{g_1} = e^{-0.16344} = 0.84922$.
+
 \vspace{3mm}
 
 \item Dans le cas de la loi binomiale négative avec $r>1$, cette méthode ne fonctionne pas car la fonction de répartition n'a pas d'expression simple. On propose alors une méthode similaire basée sur un autre critère.
@@ -236,10 +231,8 @@ $$\frac{P(X=x)}{P(X=x+1)} = \frac{\binom{x-1}{r-1} (1-p)^{x-r} p^{r}}{\binom{x}{
 \item Proposer une méthode permettant d'évaluer à partir d'un nuage de points si la loi Binomiale Négative est un modèle plausible. En déduire deux estimations graphiques de $p$, $p_{g_2}$ et $p_{g_3}$.
 
 \textbf{Réponse :\\}
-Nous traçons les point suivants: $\left({x \dsp \frac{P(X=x)}{P(X=x+1)} ; \frac{x}{1-p} +\frac{r-1}{p-1}} \right)$ \\
-Nous calculons sa droite de régression affine, notons son résultat: Y=Ax+B. \\
-On pose: $A = \frac{1}{1-p_{g_2}}$ et $B = \frac{r-1}{p_{g_3}-1}$. \\
-Ainsi: $p_{g_2} = 1 - \frac{1}{A}$ et $p_{g_3} = 1 + \frac{r-1}{B}$
+\underline{1ère proposition :} En traçant les points $\left({\dsp \frac{x-r+1}{x}; \ \frac{P(x=X)}{P(X=x+1}} \right)$ pour tous les x. On obtient la pente $\dsp \frac{1}{1-p}$ et on peut facilement trouver p \\
+\underline{2nde proposition :} En remarquant que $\dsp \frac{P(X=x)x}{P(X=x+1) (x-r+1)} = \frac{1}{1-p} $, on trace les points $\left(x, \dsp \frac{P(X=x)x}{P(X=x+1) (x-r+1)} \right) $ et on cherche la moyenne qui devrait correspondre à $ \dsp \frac{1}{1-p} $ 
 \vspace{3mm}
 
 \item Evaluer la qualité de cette méthode sur la base de jeux de données simulées.
@@ -262,26 +255,7 @@ Puisque $ r= p E[X]$, on obtient $\dsp \tilde{r}_n = \frac{ \bar{X}_n^2}{S_n + \
 \item Proposer une méthode numérique permettant de calculer les estimateurs de maximum de vraisemblance $\hat{p}_n$ et $\hat{r}_n$.
 
 \textbf{Réponse :\\}
-On peut aisément calculer p, si l'on connait r.
-Par définition, $X$ est à valeurs dans \{$r, r+1, ..., +\infty$\}, on sait donc que $r \leq min(x_i)$.
-Il suffit alors d'énumérer les r possibles pour pouvoir trouver le couple (r, p) maximisant la vraisemblance. \\
-Voici notre algorithme:
-\begin{verbatim}
-Fonction estimer_p_et_r(données):
-    vraisemblance = $-\infty$
-    meilleur_r = -1
-    p_associe = -1
-    Pour $r_i$ entier appartenant à $[1, min(données)]$:
-        nouveau_p = calcul_maximum_vraisemblance_pour_p($r_i$, données)
-        nouvelle_vraisemblance = calcul_vraisemblance(nouveau_p, $r_i$, données)
-        Si nouvelle_vraisemblance > vraisemblance:
-            meilleur_r = $r_i$
-            p_associe = nouveau_p
-            vraisemblance = nouvelle_vraisemblance
-        Fin Si
-    Fin pour
-Retourner meilleur_r et p_associé
-\end{verbatim}
+On estime p comme tout à l'heure (question 1.4 (b)
 \end{enumerate}
 
 
@@ -338,8 +312,17 @@ Pour le groupe 2, c'est la loi binomiale négative qui semble être un modèle p
 
 \item Pour les deux jeux de données, estimer le nombre moyen de fixations nécessaires pour identifier le type du texte lu et estimer la probabilité que ce nombre soit supérieur à 10. Quelle conclusion générale tirer de cette analyse ?
 
+\testbf{Réponse 1:\\}
+Cas du groupe 1 : Après construction du graphe de probabilité, on pratique une régression linéaire pour connaître le coefficient directeur de la droite. \\
+\begin{center}
+\includegraphics[width=15cm]{{{graphics/q1.3}.eps}}
+\captionof{figure}{Titre}
+\label{fig1}
+\end{center}
 \end{enumerate}
 
+D'après la question 1.3, on obtient une droite dont le coefficient directeur a est $a = ln(1-p) \Rightarrow p = 1 - e^{a} $ ce qui donne numériquement $ p=0,1507846 $\\
+D'après la question 2.2, $ IC = [0.1354829, 0.1723137]$
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Vérifications expérimentales à base de simulations}

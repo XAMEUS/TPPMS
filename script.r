@@ -13,46 +13,15 @@ enumerate <- function(X, FUN, ...) {
 
 ###############
 
-groupe1 = scan("./echantillons/groupe1.txt", what=integer(), sep="\n")
-groupe2 = scan("./echantillons/groupe2.txt", what=integer(), sep="\n")
 
-r = 1
-p = 0.5 #Â TODO
-q = 1 - p
-F<-function(k)
-{
-  # return (p / q * (1 - q ** (k + 1)) / (1 - q))
-  return ((1 - (1 - p) ** (k + 1)) / (1 - p))
-}
-
-n = 10
-m = 5
-k = seq(1,5,1)
-plot(k, F(k))
-
-lines(k, F(k), type="s")
-
-h<-function(x)
-{
-  return (log(1 - x))
-}
-
-x = sort(groupe1)
-y = x
-for (i in 1:length(x))
-{
-  y[i] = h(i / length(x))
-}
-plot(x, y)
-x = head(x, -1)
-y = head(y, -1)
-reg<-lm(y~x)
-lines(x, fitted.values(reg))
 
 
 ####################
+# Partie 2
+####################
+
 # Question 2.1
-####################
+
 groupe1_ordonne = sort(groupe1)
 groupe2_ordonne = sort(groupe2)
 
@@ -101,6 +70,57 @@ hist(groupe2_ordonne, prob=T, breaks=bornes)
 #Histogramme à classe de même effectif groupe2
 histoeff(groupe2)
 
+# Question 2.2
+
+groupe1 = scan("./echantillons/groupe1.txt", what=integer(), sep="\n")
+groupe2 = scan("./echantillons/groupe2.txt", what=integer(), sep="\n")
+
+r = 1
+p = 0.5 #Â TODO
+q = 1 - p
+F<-function(k)
+{
+  # return (p / q * (1 - q ** (k + 1)) / (1 - q))
+  return ((1 - (1 - p) ** (k + 1)) / (1 - p))
+}
+
+n = 10
+m = 5
+k = seq(1,5,1)
+plot(k, F(k))
+
+lines(k, F(k), type="s")
+
+h<-function(x)
+{
+  return (log(1 - x))
+}
+
+x = sort(groupe1)
+y = x
+for (i in 1:length(x))
+{
+  y[i] = h(i / length(x))
+}
+plot(x, y)
+x = head(x, -1)
+y = head(y, -1)
+reg<-lm(y~x)
+lines(x, fitted.values(reg))
+
+# approximation de p 
+coeff = coef(reg)
+p = 1 - exp(coeff[2])
+
+# calcul de l'intervalle de confiance au seuil de 5% d'après la 
+# formule de la question 1.2
+alpha<- 0.05
+xn = mean(groupe1)
+n = length(groupe1)
+u_alpha = qnorm(1-alpha/2)
+borne_inf = 1/xn - u_alpha*sqrt((xn-1)/(n*xn**3))
+borne_sup = 1/xn + u_alpha*sqrt((xn -1)/(n*xn**3))
+
 ############
 # Partie 3 #
 ############
@@ -114,4 +134,4 @@ for (i in 1:m)
   l[i] = sum(rgeom(n, p))
 }
 hist(l)
->>>>>>> 7f5d140950873fb6276c320af75e38a21ee5dbc3
+
