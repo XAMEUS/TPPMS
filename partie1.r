@@ -10,6 +10,21 @@ for (i in 1:n) {
 print("Estimation de p selon la méthode des moments, et de maximum de vraisemblance")
 print(r / mean(echantillon))
 
+# Question 1.3
+n = 1000
+p = 0.1789
+x = sort(rgeom(n, p))
+y = x
+for (i in 1:length(x)-1) {
+    y[i] = log(1 - i/n)
+}
+x = head(x, -1)
+y = head(y, -1)
+plot(x, y)
+reg<-lm(y~x)
+lines(x, fitted.values(reg))
+print(reg)
+print(1 - exp(reg$coefficients[2]))
 
 
 #Estimons p (1.4)
