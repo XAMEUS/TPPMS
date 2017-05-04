@@ -45,16 +45,18 @@ liste_x = c()
 liste_y = c()
 
 for (i in 1:length(echantillon)-1) {
-    if(length(liste_x[liste_x==echantillon[i]]) != 0) {
-        next
+    # if(length(liste_x[liste_x==echantillon[i]]) != 0) {
+    #     next
+    # }
+    if (length(echantillon[echantillon==echantillon[i]+1])) {
+        liste_x = c(liste_x, echantillon[i])
+        liste_y = c(liste_y, c(echantillon[i] * length(echantillon[echantillon==echantillon[i]])  / length(echantillon[echantillon==echantillon[i]+1])))
     }
-    liste_x = c(liste_x, echantillon[i])
-    liste_y = c(liste_y, c(echantillon[i] * length(echantillon[echantillon==echantillon[i]])  / length(echantillon[echantillon==echantillon[i+1]])))
 }
 plot(liste_x, liste_y)
 n_reg<-lm(liste_y~liste_x)
 print(n_reg)
-
+lines(liste_x, fitted.values(n_reg))
 print("pg2")
 print(1 - 1/ n_reg$coefficients[2])
 print("pg3")
