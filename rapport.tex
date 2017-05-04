@@ -212,12 +212,13 @@ Calcul de la fonction de répartition pour le graphe : $$ F(k) = P(X \leq k) = \
 On a $$ 1 - F(k) = q_{k} \Rightarrow ln(1-F(k)) = k ln(q)$$
 On pose $H(x) = ln(1-x)$ et $g(x) = x$ et on obtient comme graphe de probabilité pour la fonction de répartition le nuage de points $ (g(x_i^{*}), \; h(\frac{i}{n})) \quad \forall i \in \llbracket 1; n \rrbracket $
 \begin{center}
-\includegraphics[width=15cm]{{{graphics/q2.2.1}.eps}}
-% \captionof{figure}{Graphe de probabilités avec la méthode basée sur la fonction de répartition}
+\includegraphics[width=15cm]{{{graphics/q1.3}.eps}}
 \label{fig1}
 \end{center}
-Après une régression affine, nous avons comme pente: $-0.16344$. \\
-Ainsi on estime graphiquement $p_{g_1} = e^{-0.16344} = 0.84922$.
+Pour réaliser ce graphe, nous avons simulés avec $n = 1000$ et $p = 0.1789$. \\
+Après une régression affine, nous avons comme pente: $-0.1965$. \\
+Ainsi on estime graphiquement $p_{g_1} = e^{-0.1965} = 0.1784196$.
+Après tests avec d'autres paramètres, nous trouvons aussi de très bons résultats: l'estimateur est d'excellente qualité. \\
 \vspace{3mm}
 
 \item Dans le cas de la loi binomiale négative avec $r>1$, cette méthode ne fonctionne pas car la fonction de répartition n'a pas d'expression simple. On propose alors une méthode similaire basée sur un autre critère.
