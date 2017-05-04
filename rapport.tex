@@ -34,7 +34,7 @@
 \usepackage{fullpage}
 \usepackage{amsmath}
 \usepackage{graphicx}
-\usepackage{caption} 
+\usepackage{caption}
 \usepackage{amsthm}
 \usepackage{float}
 \usepackage{amssymb}
@@ -237,7 +237,7 @@ $$\frac{P(X=x)}{P(X=x+1)} = \frac{\binom{x-1}{r-1} (1-p)^{x-r} p^{r}}{\binom{x}{
 
 \textbf{Réponse :\\}
 \underline{1ère proposition :} En traçant les points $\left({\dsp \frac{x-r+1}{x}; \ \frac{P(x=X)}{P(X=x+1}} \right)$ pour tous les x. On obtient la pente $\dsp \frac{1}{1-p}$ et on peut facilement trouver p \\
-\underline{2nde proposition :} En remarquant que $\dsp \frac{P(X=x)x}{P(X=x+1) (x-r+1)} = \frac{1}{1-p} $, on trace les points $\left(x, \dsp \frac{P(X=x)x}{P(X=x+1) (x-r+1)} \right) $ et on cherche la moyenne qui devrait correspondre à $ \dsp \frac{1}{1-p} $ 
+\underline{2nde proposition :} En remarquant que $\dsp \frac{P(X=x)x}{P(X=x+1) (x-r+1)} = \frac{1}{1-p} $, on trace les points $\left(x, \dsp \frac{P(X=x)x}{P(X=x+1) (x-r+1)} \right) $ et on cherche la moyenne qui devrait correspondre à $ \dsp \frac{1}{1-p} $
 \vspace{3mm}
 
 \item Evaluer la qualité de cette méthode sur la base de jeux de données simulées.
@@ -260,7 +260,26 @@ Puisque $ r= p E[X]$, on obtient $\dsp \tilde{r}_n = \frac{ \bar{X}_n^2}{S_n + \
 \item Proposer une méthode numérique permettant de calculer les estimateurs de maximum de vraisemblance $\hat{p}_n$ et $\hat{r}_n$.
 
 \textbf{Réponse :\\}
-On estime p comme tout à l'heure (question 1.4 (b)
+On peut aisément calculer p, si l'on connait r.
+Par définition, $X$ est à valeurs dans \{$r, r+1, ..., +\infty$\}, on sait donc que $r \leq min(x_i)$.
+Il suffit alors d'énumérer les r possibles pour pouvoir trouver le couple (r, p) maximisant la vraisemblance. \\
+Voici notre algorithme:
+\begin{verbatim}
+Fonction estimer_p_et_r(données):
+    vraisemblance = $-\infty$
+    meilleur_r = -1
+    p_associe = -1
+    Pour $r_i$ entier appartenant à $[1, min(données)]$:
+        nouveau_p = calcul_maximum_vraisemblance_pour_p($r_i$, données)
+        nouvelle_vraisemblance = calcul_vraisemblance(nouveau_p, $r_i$, données)
+        Si nouvelle_vraisemblance > vraisemblance:
+            meilleur_r = $r_i$
+            p_associe = nouveau_p
+            vraisemblance = nouvelle_vraisemblance
+        Fin Si
+    Fin pour
+Retourner meilleur_r et p_associé
+\end{verbatim}
 \end{enumerate}
 
 
