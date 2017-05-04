@@ -336,16 +336,37 @@ Calculs d'indicateurs statistiques grâce à R : \\
 \item Les lois géométrique et binomiale négative sont-elles des modèles plausibles pour ces deux jeux de données ? Pour chaque jeu de données, choisir un modèle pertinent, estimer ses paramètres de toutes les façons possibles et, quand c'est possible, donner un intervalle de confiance asymptotique de seuil $\alpha=5\%$ pour ces paramètres.
 
 \textbf{Réponse :\\}
-Pour le groupe 1, au vu des analyses statistiques, la loi géométrique semble être un modèle pertinent. \\
-Pour le groupe 2, c'est la loi binomiale négative qui semble être un modèle pertinent. \\
+Pour le groupe 1: La loi géométrique est un modèle pertinent. En effet nous avons utilisés la méthode graphique, en traçant le graphe de probabilité avec les données.
+\begin{center}
+\includegraphics[width=15cm]{{{graphics/q1.3}.eps}}
+\captionof{figure}{Graphe de probabilité pour la loi géométrique sur le groupe 1}
+\label{fig1}
+\end{center}
+On constate que la droite est quasi-linéaire, ce qui montre que la loi géométrique est un modèle plausible. \\
+D'après la question 1.3, on obtient une droite dont le coefficient directeur a est $a = ln(1-p) \Rightarrow p_{g_{1}} = 1 - e^{a} $ ce qui donne numériquement $ p=0,1507846 $\\
+D'après la question 1.2, l'intervalle de confiance est: $ [0.1354829, 0.1723137]$. \\
 
 \vspace{3mm}
+Pour le groupe 2, nous utilisons la méthode de la question 1.4: \\
+\begin{center}
+\includegraphics[width=15cm]{graphics/q2_2-groupe2.png}
+\captionof{figure}{Graphe de probabilité pour la loi binomiale négative pour le groupe 2}
+\label{fig3}
+\end{center}
+On constate que la loi binomiale négative est un modèle plausible pour le second groupe. \\
+D'après la question $1.4(b)$, en traçant les points $\left( x, \dsp \frac{xP(x =X)}{P(X=x+1)} \right)$ on obtient une droite de pente $a = \dsp {1}{1-p} \Rightarrow p = 1 - \frac{1}{a}$ \\
+Numériquement on obtient $ p_{g_{2}} = 0.4089586 $\\
+Le maximum de vraisemblance est atteint pour $r=5$
 
-\item Pour les deux jeux de données, estimer le nombre moyen de fixations nécessaires pour identifier le type du texte lu et estimer la probabilité que ce nombre soit supérieur à 10. Quelle conclusion générale tirer de cette analyse ?
+\item Pour les deux jeux de données, estimer le nombre moyen de fixations nécessaires pour identifier le type du texte lu et estimer la probabilité que ce nombre soit supérieur à 10. Quelle conclusion générale tirer de cette analyse ? \\
+\textbf{Réponse :\\}
+A la question précédente, nous avons calculé les différents paramètres nous permettant de déterminer l'espérance de chacune des lois et donc de déterminer le nombre moyen de fixations nécessaires pour identifier le type du texte lu. \\
 
+ Pour le groupe 1, $E[X] = \frac{1}{p_{g_{1}}} = 6.631977 $ \\
+Pour le groupe 2, $E[X] = \frac{r_{g_{2}}}{p_{g_{2}}} = 12.22618 $ \\
+
+Intéressons nous à la probabilité que ce
 \end{enumerate}
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Vérifications expérimentales à base de simulations}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
