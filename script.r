@@ -49,6 +49,7 @@ y = head(y, -1)
 reg<-lm(y~x)
 lines(x, fitted.values(reg))
 
+
 ####################
 # Question 2.1
 ####################
@@ -99,3 +100,18 @@ hist(groupe2_ordonne, prob=T, breaks=bornes)
 
 #Histogramme à classe de même effectif groupe2
 histoeff(groupe2)
+
+############
+# Partie 3 #
+############
+
+m = 1000000
+n = 1000000
+p = 0.1
+l = numeric(m)
+for (i in 1:m)
+{
+  l[i] = sum(rgeom(n, p))
+}
+hist(l)
+>>>>>>> 7f5d140950873fb6276c320af75e38a21ee5dbc3
