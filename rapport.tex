@@ -236,8 +236,10 @@ $$\frac{P(X=x)}{P(X=x+1)} = \frac{\binom{x-1}{r-1} (1-p)^{x-r} p^{r}}{\binom{x}{
 \item Proposer une méthode permettant d'évaluer à partir d'un nuage de points si la loi Binomiale Négative est un modèle plausible. En déduire deux estimations graphiques de $p$, $p_{g_2}$ et $p_{g_3}$.
 
 \textbf{Réponse :\\}
-\underline{1ère proposition :} En traçant les points $\left({\dsp \frac{x-r+1}{x}; \ \frac{P(x=X)}{P(X=x+1}} \right)$ pour tous les x. On obtient la pente $\dsp \frac{1}{1-p}$ et on peut facilement trouver p \\
-\underline{2nde proposition :} En remarquant que $\dsp \frac{P(X=x)x}{P(X=x+1) (x-r+1)} = \frac{1}{1-p} $, on trace les points $\left(x, \dsp \frac{P(X=x)x}{P(X=x+1) (x-r+1)} \right) $ et on cherche la moyenne qui devrait correspondre à $ \dsp \frac{1}{1-p} $
+Nous traçons les point suivants: $\left({x \dsp \frac{P(X=x)}{P(X=x+1)} ; \frac{x}{1-p} +\frac{r-1}{p-1}} \right)$ \\
+Nous calculons sa droite de régression affine, notons son résultat: Y=Ax+B. \\
+On pose: $A = \frac{1}{1-p_{g_2}}$ et $B = \frac{r-1}{p_{g_3}-1}$. \\
+Ainsi: $p_{g_2} = 1 - \frac{1}{A}$ et $p_{g_3} = 1 + \frac{r-1}{B}$
 \vspace{3mm}
 
 \item Evaluer la qualité de cette méthode sur la base de jeux de données simulées.
