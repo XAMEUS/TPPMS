@@ -238,7 +238,7 @@ $$\frac{P(X=x)}{P(X=x+1)} = \frac{\binom{x-1}{r-1} (1-p)^{x-r} p^{r}}{\binom{x}{
 
 \textbf{Réponse :\\}
 Comme nous avons l'égalité suivante: $x \dsp \frac{P(X=x)}{P(X=x+1)} = \frac{x}{1-p} +\frac{r-1}{p-1}$ \\
-Nous traçons les points suivants: $\left({x_i^\#} ; x_i^\# \dsp \frac{P(x_i^\#)}{P(x_{i}^\# + 1)} \right)$ \\
+Nous traçons les points suivants: $\left({x_i^\#} ; x_i^\# \dsp \frac{P(X=x_i^\#)}{P(X=x_{i}^\# + 1)} \right)$ \\
 Où $x_i^\#$ vaut 0 quand $i$ n'a pas été tiré sinon $i$
 Nous calculons sa droite de régression affine, notons son résultat: Y=Ax+B. \\
 On pose: $A = \frac{1}{1-p_{g_2}}$ et $B = \frac{r-1}{p_{g_3}-1}$. \\
@@ -368,7 +368,15 @@ A la question précédente, nous avons calculé les différents paramètres nous
  Pour le groupe 1, $E[X] = \frac{1}{p_{g_{1}}} = 6.631977 $ \\
 Pour le groupe 2, $E[X] = \frac{r_{g_{2}}}{p_{g_{2}}} = 12.22618 $ \\
 
-Intéressons nous à la probabilité que ce
+-Intéressons nous à la probabilité que le nombre de fixations nécessaires pour déterminer le type de texte soit supérieur à 10, pour cela on compte le nombre de valeurs supérieures à 10 dans chacun des échantillons. \\
+ -Pour le groupe 1 : $P(x \geq 10) = 0.2511013 $ \\²
+ -Pour le groupe 2: $P(x \geq 10) = 0.9285714$\\
+ -
+ -Tout d'abord notons que l'échantillon pour le groupe 2 ne comporte que 168 valeurs, ce qui n'est pas assez pour faire de bonnes approximations. De plus certaines valeurs semblent abérrantes au vu du graphe de probabilités pour la loi binomiale négative. \\
+ -On remarque également que la majorité du  groupe deux est beaucoup plus rapide pour identifier le type du texte puisque la probabilité pour qu'il l'identifie en moins de 10 essais est supérieure à 0.90 contre un petit 0.25 pour le premier groupe.\\
+ -Mais le nombre de mots nécessaires pour identifier le type de texte varie beaucoup plus pour le groupe 2 puisque le nombre moyen de mots est 12 avec 90 pourcent du nombre de mots nécessaires inférieur à 10. Cela signifie que certaines personnes ont eu besoin de beaucoup de mots pour déterminer le type de texte.\\
+ -A l'inverse au sein du groupe 1, le nombre de mots nécessaires est plus centré autour de la valeur de 10, il y a très peu de personnes ayant eu besoin de beaucoup de mots.
+
 \end{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Vérifications expérimentales à base de simulations}
