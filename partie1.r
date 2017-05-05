@@ -13,7 +13,11 @@ print(r / mean(echantillon))
 # Question 1.3
 n = 1000
 p = 0.1789
-x = sort(rgeom(n, p))
+x = rgeom(n, p)
+for(i in 1:n) {
+    x[i] = x[i] + 1
+}
+x = sort(x)
 y = x
 for (i in 1:length(x)-1) {
     y[i] = log(1 - i/n)
@@ -84,13 +88,13 @@ print(1 + (r-1) / n_reg$coefficients[1])
 # Test de pg2 et pg3
 listpg2 = c()
 listpg3 = c()
-for(r in seq(10, 1000, 50)) {
+for(r in seq(10, 10000, 500)) {
     pg2 = 0
     pg3 = 0
-    y = 50
+    y = 1
     for(j in 1:y) {
-        res = simul_second(n, r, p)
-        reg<-lm(res$y~res$y)
+        res = simul_second(n, r, 0.5)
+        reg<-lm(res$y~res$x)
         pg2 = pg2 + 1 - 1/ n_reg$coefficients[2]
         pg3 = pg3 + 1 + (r-1) / n_reg$coefficients[1]
     }
@@ -99,5 +103,5 @@ for(r in seq(10, 1000, 50)) {
     listpg2 = c(listpg2, pg2)
     listpg3 = c(listpg3, pg3)
 }
-print(length(listpg2))
+print(length(listpg3))
 plot(seq(10, 1000, 50), listpg2)

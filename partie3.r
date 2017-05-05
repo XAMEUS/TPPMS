@@ -10,7 +10,7 @@ q3 <- function(n, e) {
   l = numeric(m)
   for (i in 1:m)
   {
-    l[i] = sum(rgeom(n, p))
+    l[i] = sum(rgeom(n, p)) + m
   }
   c = 0
   for (i in 1:m)
@@ -41,7 +41,7 @@ simu <- function(n)
   l = numeric(m)
   for (i in 1:m)
   {
-    l[i] = mean(rgeom(n, p))
+    l[i] = mean(rgeom(n, p))+1
   }
   return (l)
 }
