@@ -45,9 +45,9 @@ simu <- function(n)
   return (l)
 }
 
-data = simu(10)
+data = simu(1000)
 m<-mean(data)
 std<-sqrt(var(data))
-hist(data, breaks=20, prob=TRUE)
+hist(data, breaks=20, prob=TRUE, main=expression(n ~ " = " ~ 1000))
 curve(dnorm(x, mean=m, sd=std), col="blue", lwd=2, add=TRUE)
 
