@@ -10,12 +10,12 @@ q3 <- function(n, e) {
   l = numeric(m)
   for (i in 1:m)
   {
-    l[i] = mean(rgeom(n, p))
+    l[i] = sum(rgeom(n, p)) + n
   }
   c = 0
   for (i in 1:m)
   {
-    if ((abs(l[i] - 1 / p) >= e))
+    if ((abs(l[i] / n - 1 / p) >= e))
     {
       c = c + 1
     }
@@ -32,7 +32,6 @@ for (i in seq(1, 100))
 }
 plot(x, y)
 title(main = expression(epsilon ~ " = " ~ 1.333333))
-
 # q3.3
 simu <- function(n)
 {
@@ -41,7 +40,7 @@ simu <- function(n)
   l = numeric(m)
   for (i in 1:m)
   {
-    l[i] = mean(rgeom(n, p))
+    l[i] = mean(rgeom(n, p))+1
   }
   return (l)
 }
