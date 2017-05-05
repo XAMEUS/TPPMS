@@ -193,10 +193,10 @@ Dans un premier temps, on suppose que le paramètre $r$ est connu.
 \textbf{Réponse :\\}
 \underline{méthode des moments :} $E[X] = \dsp \frac{r}{p} \Rightarrow p = \frac{e}{E[X]} \Rightarrow \hat{p}_n = \frac{r}{\bar{X}_n} $ \\
 \underline{méthode du maximum de vraisemblance :} \\
-Soit  la fonction de vraisemblance $\mathcal{L}(p, x_{1}, ..., x_{n})$,\\$$\mathcal{L}(p, x_{1}, ... , x_{n}) = \prod_{i=1}^{n}P(X=x_{i}, p)  = \prod_{i=1}^n \binom{x_i-1}{r-1}(1-p)^{x_i-r}p^r$$ \\
+Soit  la fonction de vraisemblance $\mathcal{L}(p, r, x_{1}, ..., x_{n})$,\\$$\mathcal{L}(p, r, x_{1}, ... , x_{n}) = \prod_{i=1}^{n}P(X=x_{i}, p, r)  = \prod_{i=1}^n \binom{x_i-1}{r-1}(1-p)^{x_i-r}p^r$$ \\
 On cherche à trouver le minimum de cette fonction par rapport à p. \\
-\[\frac{\partial{ln(\mathcal{L}(p, x_{1}, ... , x_{n}))}}{\partial{p}} = -\sum_{i=1}^{n} \frac{x_{i}}{1-p} + \frac{rn}{p(1-p)}\]
-\[\frac{\partial{ln(\mathcal{L}(p, x_{1}, ... , x_{n}))}}{\partial{p}} = 0 \Rightarrow \frac{rn}{p} = -\sum_{i=1}{n} x_{i} \Rightarrow \hat{p}_n = \frac{r}{\bar{X}_n}\]
+\[\frac{\partial{ln(\mathcal{L}(p, r, x_{1}, ... , x_{n}))}}{\partial{p}} = -\sum_{i=1}^{n} \frac{x_{i}}{1-p} + \frac{rn}{p(1-p)}\]
+\[\frac{\partial{ln(\mathcal{L}(p, r, x_{1}, ... , x_{n}))}}{\partial{p}} = 0 \Rightarrow \frac{rn}{p} = -\sum_{i=1}{n} x_{i} \Rightarrow \hat{p}_n = \frac{r}{\bar{X}_n}\]
 \vspace{3mm}
 
 \item Appliquer le théorème central-limite à $\bar{X}_n$. En déduire un intervalle de confiance bilatéral asymptotique de seuil $\alpha$ pour $p$.
