@@ -342,6 +342,8 @@ biais <- function(n, p, r, m){
   pn <- c()
   rn <- c()
   for (i in 1:m){
+    if (i%%50){
+      next}
     echantillon <- rnbinom(n,r,p)+5
     x_n <- mean(echantillon)
     s_n <- var(echantillon)
@@ -357,19 +359,78 @@ biais <- function(n, p, r, m){
 biais(1000, 0.2, 5, 100)
 print(biais)
 
-graphe_biais <- function(n, p, r, m){
+graphe_biais_p <- function(n, p, r, m){
   x <- c()
   y <- c()
   for (i in 1:n){
-    if (i %% 50){
-      next
-    }
     x <- append(x, i)
-    y <- append(y, biais(n, p, r, m)[2])
+    y <- append(y, biais(n, p, r, m)[1])
   
   }
   plot(x,y)
 }
 
-graphe_biais(1000, 0.2, 5, 1000)
-  
+graphe_biais_r <- function(n, p, r, m){
+  x <- c()
+  y <- c()
+  for (i in 1:n){
+    x <- append(x, i)
+    y <- append(y, biais(n, p, r, m)[2])
+    
+  }
+  plot(x,y)
+}
+
+#A executer
+graphe_biais_p(10000, 0.2, 5, 1000)
+
+#A executer
+graphe_biais_r(10000, 0.2, 5, 1000)
+
+erreur_quadratique <- function(n, p, r, m){
+  pn <- c()
+  rn <- c()
+  for (i in 1:m){
+    if (i %%50){
+      next}
+    echantillon <- rnbinom(n,r,p)+5
+    x_n <- mean(echantillon)
+    s_n <- var(echantillon)
+    p_n <- x_n / (s_n + x_n)
+    r_n <- x_n * p_n
+    pn <- append(pn, p_n)
+    rn <- append(rn, r_n)
+  }
+  eqp <- mean((pn - p)**2)
+  eqr <- mean((rn - p)**2)
+}
+
+
+graphe_erreur_quadratique_p <- function(n,p,r,m){
+  x <- c()
+  y <- c()
+  for (i in 1:n){
+    x <- append(x, i)
+    y <- append(y, erreur_quadratique(n, p, r, m)[1])
+    
+  }
+  plot(x,y)
+}
+
+
+graphe_erreur_quadratique_r <- function(n,p,r,m){
+  x <- c()
+  y <- c()
+  for (i in 1:n){
+    x <- append(x, i)
+    y <- append(y, erreur_quadratique(n, p, r, m)[2])
+    
+  }
+  plot(x,y)
+}
+
+#A executer
+graphe_erreur_quadratique_p(10000, 0.2, 5, 100)
+
+#A executer
+graphe_erreur_quadratique_r(10000, 0.2, 5, 10)
