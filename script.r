@@ -336,101 +336,58 @@ print(simu)
 
 
 
-# Question 3.4
-
-biais <- function(n, p, r, m){
-  pn <- c()
-  rn <- c()
-  for (i in 1:m){
-    if (i%%50){
-      next}
-    echantillon <- rnbinom(n,r,p)+5
-    x_n <- mean(echantillon)
-    s_n <- var(echantillon)
-    p_n <- x_n / (s_n + x_n)
-    r_n <- x_n * p_n
-    pn <- append(pn, p_n)
-    rn <- append(rn, r_n)
-  }
-  bp <- mean(pn) - p
-  br <- mean(rn) - r
-  return (c(bp, br))
-}
-biais(1000, 0.2, 5, 100)
-print(biais)
-
-graphe_biais_p <- function(n, p, r, m){
-  x <- c()
-  y <- c()
-  for (i in 1:n){
-    x <- append(x, i)
-    y <- append(y, biais(n, p, r, m)[1])
+#Question 3.4
+question3_4<-function(r,p,n,m){
+  tab_estim_p<-c()
+  tab_estim_r<-c()
   
-  }
-  plot(x,y)
-}
-
-graphe_biais_r <- function(n, p, r, m){
-  x <- c()
-  y <- c()
-  for (i in 1:n){
-    x <- append(x, i)
-    y <- append(y, biais(n, p, r, m)[2])
+  differentiel_moyenne_p<-c()
+  differentiel_moyenne_r<-c()
+  
+  quadra_p<-c()
+  quadra_r<-c()
+  
+  for (i in (1:m)){
+    simulation<-rnbinom(n,r,p)
+    moyenne<-mean(simulation)
+    variance<-var(simulation)
     
-  }
-  plot(x,y)
-}
-
-#A executer
-graphe_biais_p(10000, 0.2, 5, 1000)
-
-#A executer
-graphe_biais_r(10000, 0.2, 5, 1000)
-
-erreur_quadratique <- function(n, p, r, m){
-  pn <- c()
-  rn <- c()
-  for (i in 1:m){
-    if (i %%50){
-      next}
-    echantillon <- rnbinom(n,r,p)+5
-    x_n <- mean(echantillon)
-    s_n <- var(echantillon)
-    p_n <- x_n / (s_n + x_n)
-    r_n <- x_n * p_n
-    pn <- append(pn, p_n)
-    rn <- append(rn, r_n)
-  }
-  eqp <- mean((pn - p)**2)
-  eqr <- mean((rn - p)**2)
-}
-
-
-graphe_erreur_quadratique_p <- function(n,p,r,m){
-  x <- c()
-  y <- c()
-  for (i in 1:n){
-    x <- append(x, i)
-    y <- append(y, erreur_quadratique(n, p, r, m)[1])
+    tab_estim_r[i]<-moyenne**2/(moyenne+variance)
+    tab_estim_p[i]<-moyenne/(moyenne+variance)
     
-  }
-  plot(x,y)
-}
-
-
-graphe_erreur_quadratique_r <- function(n,p,r,m){
-  x <- c()
-  y <- c()
-  for (i in 1:n){
-    x <- append(x, i)
-    y <- append(y, erreur_quadratique(n, p, r, m)[2])
+    differentiel_moyenne_p[i]<-tab_estim_p[i]-p
+    differentiel_moyenne_r[i]<-tab_estim_r[i]-r
     
+    quadra_p[i]<-differentiel_moyenne_p[i]**2
+    quadra_r[i]<-differentiel_moyenne_r[i]**2
   }
-  plot(x,y)
+  biais_p<-mean(differentiel_moyenne_p)
+  biais_r<-mean(differentiel_moyenne_r)
+  
+  err_quadra_p<-mean(quadra_p)
+  err_quadra_r<-mean(quadra_r)
+  return(c(biais_p,biais_r,err_quadra_p,err_quadra_r))
 }
 
-#A executer
-graphe_erreur_quadratique_p(10000, 0.2, 5, 100)
+tableau_p<-c()
+tableau_r<-c()
+tableau_errp<-c()
+tableau_errr<- c()
+#attach(mtcars)
+#par(mfrow=c(4,1))
+tab_indice<-seq(1,100,1)
+tab_indice<-append(tab_indice,seq(100,200,2))
 
-#A executer
-graphe_erreur_quadratique_r(10000, 0.2, 5, 10)
+for (i in tab_indice){
+  calcul <- question3_4(2,0.3,i,100)
+  tableau_p<-append(tableau_p,calcul[1])
+  tableau_r<-append(tableau_r,calcul[2])
+  tableau_errp<- append(tableau_errp,calcul[3])
+  tableau_errr<- append(tableau_errr,calcul[4])
+}
+
+plot(tab_indice, tableau_p, main = "biais de p",xlab="",ylab = "")
+plot(tab_indice, tableau_r, main = "biais de r",xlab="",ylab = "")
+plot(tab_indice, tableau_errp, main = "erreure quadratique de p",xlab="",ylab = "")
+plot(tab_indice, tableau_errr, main = "erreure quadratique de r",xlab="",ylab = "")
+
