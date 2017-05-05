@@ -41,8 +41,15 @@ simu <- function(n)
   l = numeric(m)
   for (i in 1:m)
   {
-    l[i] = sum(rgeom(n, p))
+    l[i] = mean(rgeom(n, p))
   }
   return (l)
 }
-hist(simu(5)) # TODO 5 -> ....
+res = simu(100)
+xx <- seq(1,1000)
+hist(res, proba=T)
+normali = dnorm(xx)
+for(i in 1:length(normali)) {
+    normali[i] = normali[i] + 5
+}
+lines(xx,normali,col="red")
