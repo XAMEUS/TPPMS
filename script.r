@@ -113,13 +113,22 @@ p = 1 - exp(coeff[2])
 E <- 1/p
 
 # calcul de l'intervalle de confiance au seuil de 5% d'après la 
-# formule de la question 1.2
+# formule de la question 1.2 pour le groupe 1
 alpha<- 0.05
 xn = mean(groupe1)
 n = length(groupe1)
 u_alpha = qnorm(1-alpha/2)
 borne_inf = 1/xn - u_alpha*sqrt((xn-1)/(n*xn**3))
 borne_sup = 1/xn + u_alpha*sqrt((xn -1)/(n*xn**3))
+
+# calcul de l'intervalle de confiance au seuil de 5% d'après la 
+# formule de la question 1.2 pour le groupe 2
+alpha<- 0.05
+xn = mean(groupe2)
+n = length(groupe2)
+u_alpha = qnorm(1-alpha/2)
+borne_inf = 5/xn - u_alpha*sqrt((xn-1)/(n*xn**3))
+borne_sup = 5/xn + u_alpha*sqrt((xn -1)/(n*xn**3))
 
 
 # groupe 2
@@ -158,6 +167,23 @@ graphe_proba_empirique <- function(groupe){
 
 
 
+
+# Fonction permettant de calculer un p à partir du maximum de vraisemblance et 
+# d'un r donné
+
+calcul_maximum_vraisemblance_pour_p <- function(r, data){
+  return(r/mean(data))
+}
+
+# Fonction permettant de calculer la vraisemblance pour un r et un p donnés
+calcul_vraisemblance <- function(p, r, data){
+  vraisemblance <- 1
+  for (i in 1:length(data)){
+    vraisemblance <- vraisemblance*(choose(data[i]-1, r-1)*(1-p)**(data[i]-r)*p**r)
+  }
+  return(vraisemblance)
+}
+
 # Fonction permettant de déterminer r
 # pour le groupe 2
 
@@ -172,13 +198,15 @@ estimer_p_r<-function(data)
     if(vraisemblance < n_vraisemblance) {
       meilleur_r = i
       p_associe = nouveau_p
-      vraisemblance = nouvelle_vraisemblance
+      vraisemblance = n_vraisemblance
+      print(i)
+      print(n_vraisemblance)
     }
   }
   return (c(meilleur_r, p_associe))
 }
 
-graphe_proba_empirique(groupe2)
+estimer_p_r(groupe1)
 
 # calcul de p pour le groupe 2
 # suivant la loi binomiale négative
@@ -261,14 +289,14 @@ graphe_simulation_p <- function(n, m, alpha){
 }
 
 #simulation a m variable
-graphe_simulation_m(n,p,alpha){
+graphe_simulation_m<-function(n,p,alpha) {
   x<-c()
   y<-c()
-  for (i in 1:1000){
+  for (i in 1:1000) {
     x <- append(x, i)
     y <- append(y, simulation_loi_geometrique(n, i, p, alpha))
   }
-  plot(x, y, xlab ="nombre de répétitions", xlim = c(0.5, 1), ylab="couverture de p", main = "Couverture de p en fonction du nombre de répétitions")
+  plot(x, y, xlab ="nombre de répétitions", ylab="couverture de p", main = "Couverture de p en fonction du nombre de répétitions")
 }
 
 #simulation à alpha variable
@@ -306,3 +334,42 @@ print(simu)
 #}
 #hist(l)
 
+
+
+# Question 3.4
+
+biais <- function(n, p, r, m){
+  pn <- c()
+  rn <- c()
+  for (i in 1:m){
+    echantillon <- rnbinom(n,r,p)+5
+    x_n <- mean(echantillon)
+    s_n <- var(echantillon)
+    p_n <- x_n / (s_n + x_n)
+    r_n <- x_n * p_n
+    pn <- append(pn, p_n)
+    rn <- append(rn, r_n)
+  }
+  bp <- mean(pn) - p
+  br <- mean(rn) - r
+  return (c(bp, br))
+}
+biais(1000, 0.2, 5, 100)
+print(biais)
+
+graphe_biais <- function(n, p, r, m){
+  x <- c()
+  y <- c()
+  for (i in 1:n){
+    if (i %% 50){
+      next
+    }
+    x <- append(x, i)
+    y <- append(y, biais(n, p, r, m)[2])
+  
+  }
+  plot(x,y)
+}
+
+graphe_biais(1000, 0.2, 5, 1000)
+  
