@@ -10,12 +10,12 @@ q3 <- function(n, e) {
   l = numeric(m)
   for (i in 1:m)
   {
-    l[i] = sum(rgeom(n, p))
+    l[i] = mean(rgeom(n, p))
   }
   c = 0
   for (i in 1:m)
   {
-    if ((abs(l[i] / n - 1 / p) >= e))
+    if ((abs(l[i] - 1 / p) >= e))
     {
       c = c + 1
     }
@@ -41,8 +41,12 @@ simu <- function(n)
   l = numeric(m)
   for (i in 1:m)
   {
-    l[i] = sum(rgeom(n, p))
+    l[i] = mean(rgeom(n, p))
   }
   return (l)
 }
-hist(simu(5)) # TODO 5 -> ....
+data = simu(10)
+m<-mean(data)
+std<-sqrt(var(data))
+hist(data, breaks=20, prob=TRUE)
+curve(dnorm(x, mean=m, sd=std), col="blue", lwd=2, add=TRUE)
