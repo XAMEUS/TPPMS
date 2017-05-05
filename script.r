@@ -57,8 +57,6 @@ histoeff <- function(x, xlim=NULL, ...)
   hist(x, breaks=breaks, col=col, xlim=xlim, probability=T, ...)
 }
 
-#Histogramme à classe de même effectif groupe1
-histoeff(groupe1)
 
 # Histogramme à classe de même largeur groupe2
 n2 = length(groupe2_ordonne)
@@ -68,8 +66,7 @@ ak<-max(groupe2_ordonne)+0.025*(max(groupe2_ordonne)-min(groupe2_ordonne))
 bornes <- seq(a0, ak, (ak - a0)/k)
 hist(groupe2_ordonne, prob=T, breaks=bornes)
 
-#Histogramme à classe de même effectif groupe2
-histoeff(groupe2)
+
 
 # Question 2.2
 
@@ -159,6 +156,28 @@ graphe_proba_empirique <- function(groupe){
   
 }
 
+
+
+# Fonction permettant de déterminer r
+# pour le groupe 2
+
+estimer_p_r<-function(data)
+{
+  meilleur_r = 1
+  p_associe = calcul_maximum_vraisemblance_pour_p(meilleur_r, data)
+  vraisemblance = calcul_vraisemblance(p_associe, meilleur_r, data)
+  for (i in 1:min(data)) {
+    nouveau_p = calcul_maximum_vraisemblance_pour_p(i, data)
+    n_vraisemblance = calcul_vraisemblance(nouveau_p, i, data)
+    if(vraisemblance < n_vraisemblance) {
+      meilleur_r = i
+      p_associe = nouveau_p
+      vraisemblance = nouvelle_vraisemblance
+    }
+  }
+  return (c(meilleur_r, p_associe))
+}
+
 graphe_proba_empirique(groupe2)
 
 # calcul de p pour le groupe 2
@@ -183,13 +202,107 @@ p_10 <- length(groupe2[groupe2>=10])/length(groupe2)
 # Partie 3 #
 ############
 
-m = 1000000
-n = 1000000
-p = 0.1
-l = numeric(m)
-for (i in 1:m)
-{
-  l[i] = sum(rgeom(n, p))
+
+# Fonction permettant de calculer l'intervalle de confiance de seuil alpha
+# pour une loi géométrique sur un échantillon de taille n
+intervalle_confiance <- function(alpha, n, echantillon){
+  xn = mean(echantillon)
+  u_alpha = qnorm(1-alpha/2)
+  if (xn >= 1){
+    borne_inf = 1/xn - u_alpha*sqrt((xn-1)/(n*xn**3))
+    borne_sup = 1/xn + u_alpha*sqrt((xn-1)/(n*xn**3))
+    intervalle <- c(borne_inf, borne_sup)
+    return(intervalle)
+  }
+  return(-1)
 }
-hist(l)
+
+echantillon <- rgeom(10, 0.15)
+intervalle <- intervalle_confiance(0.05, 10, echantillon )
+
+
+# Question 3.1
+# On simule une 100 échantillons de taille 200 pour la loi géometrique 
+# de paramètre p = 0.15
+simulation_loi_geometrique <- function(n, m, p, alpha){
+  compteur <- 0
+  for (i in 1:m){
+    echantillon <- rgeom(n,p)+1
+    intervalle <- intervalle_confiance(alpha, n, echantillon)
+    if (intervalle[1] <= p && p <= intervalle[2]){
+      compteur <- compteur + 1
+    }
+  }
+  return(compteur/m)
+}
+
+compteur <- simulation_loi_geometrique(100000, 100, 0.1, 0.05)
+print(compteur)
+
+# Simulation à n variable
+graphe_simulation_n <- function(m, p, alpha){
+  x <- c()
+  y <- c()
+  for (i in 10:3000) {
+    x<- append(x, i)
+    y<- append(y, simulation_loi_geometrique(i, m, p, alpha))
+  }
+  plot(x, y, xlab = "nombre d'échantillons", ylab="couverture de p", main = "Couverture de p en fonction du nombre d'échantillons")
+}
+
+# Simulation à p variable
+graphe_simulation_p <- function(n, m, alpha){
+  x <- seq(0.01, 0.5, 0.01)
+  y <- c()
+  for (i in 1: length(x)){
+    y <- append(y, simulation_loi_geometrique(n, m, x[i], alpha))
+  }
+  plot(x, y, xlab="probabilité", ylim=c(0, 1), ylab="couverture de p", main ="Couverture de p en fonction de la probabilité")
+}
+
+#simulation a m variable
+graphe_simulation_m(n,p,alpha){
+  x<-c()
+  y<-c()
+  for (i in 1:1000){
+    x <- append(x, i)
+    y <- append(y, simulation_loi_geometrique(n, i, p, alpha))
+  }
+  plot(x, y, xlab ="nombre de répétitions", xlim = c(0.5, 1), ylab="couverture de p", main = "Couverture de p en fonction du nombre de répétitions")
+}
+
+#simulation à alpha variable
+graphe_simulation_alpha <- function(n, m, p){
+  x <- seq(0.01, 0.3, 0.01)
+  y <- c()
+  for (i in 1: length(x)){
+    y <- append(y, simulation_loi_geometrique(n, m, p, x[i]))
+  }
+  plot(x, y, xlab="probabilité", ylab="couverture de p", main ="Couverture de p en fonction de alpha")
+}
+
+#graphe 1
+graphe_simulation_n(1000, 0.15, 0.05)
+
+#graphe 2
+graphe_simulation_p(1000, 1000, 0.05)
+
+#graphe 3 
+graphe_simulation_m(1000, 0.15, 0.05)
+
+#graphe 4
+graphe_simulation_alpha(10000, 1000, 0.15)
+
+simu = simulation_loi_geometrique(100, 100, 0.15, 0.05) 
+print(simu)
+
+#m = 1000000
+#n = 1000000
+#p = 0.1
+#l = numeric(m)
+#for (i in 1:m)
+#{
+#  l[i] = sum(rgeom(n, p))
+#}
+#hist(l)
 

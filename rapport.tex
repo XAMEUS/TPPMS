@@ -310,7 +310,8 @@ Pour le groupe 2, c'est la loi binomiale négative qui semble être un modèle p
 
 \vspace{3mm}
 
-\textbf {Réponse 1:\\}
+\textbf{\textit{Estimation graphique}}\\
+
 Cas du groupe 1 : Après construction du graphe de probabilité, on pratique une régression linéaire pour connaître le coefficient directeur de la droite. \\
 \begin{center}
 \includegraphics[width=15cm]{{{graphics/q1.3}.eps}}
@@ -332,6 +333,13 @@ D'après la question $1.4(b)$, en traçant les points $\left( x, \dsp \frac{xP(x
 Numériquement on obtient $ p_{g_{2}} = 0.4089586 $\\
 En maximisant le maximum de vraisemblance on trouve $r=5$
 
+\textbf{\textit{Estimation numérique}}\\
+En appliquant la méthode des moments au groupe 1 (question 1.1), on trouve $\tilde{p_n} = 0.1538983$ 
+
+\vspace{5mm}
+En appliquant la méthode des moments au groupe 2 ( question 1.5), on trouve $\tilde{p_n} = 0.2476021 $  et $\tilde{r_n} = 4.887194$ or $\tilde{r_n}$ doit être un entier donc $\tilde{r_n} = 5$
+
+
 \item Pour les deux jeux de données, estimer le nombre moyen de fixations nécessaires pour identifier le type du texte lu et estimer la probabilité que ce nombre soit supérieur à 10. Quelle conclusion générale tirer de cette analyse ? \\
 \vspace{3mm}
 
@@ -339,16 +347,17 @@ En maximisant le maximum de vraisemblance on trouve $r=5$
 A la question précédente, nous avons calculé les différents paramètres nous permettant de déterminer l'espérance de chacune des lois et donc de déterminer le nombre moyen de fixations nécessaires pour identifier le type du texte lu. \\
 
  Pour le groupe 1, $E[X] = \frac{1}{p_{g_{1}}} = 6.631977 $ \\
-Pour le groupe 2, $E[X] = \frac{r_{g_{2}}}{p_{g_{2}}} = 12.22618 $ \\
+Pour le groupe 2, $E[X] = \frac{r_{g_{2}}}{p_{g_{2}}} = 12.22618 $, mais on a également $E[X] = \frac{\tilde{r_n}}{\tilde{\tilde{p_n}}} = 19.7381$  \\
 
 Intéressons nous à la probabilité que le nombre de fixations nécessaires pour déterminer le type de texte soit supérieur à 10, pour cela on compte le nombre de valeurs supérieures à 10 dans chacun des échantillons. \\
 Pour le groupe 1 : $P(x \geq 10) = 0.2511013 $ \\²
 Pour le groupe 2: $P(x \geq 10) = 0.9285714$\\
 
-Tout d'abord notons que l'échantillon pour le groupe 2 ne comporte que 168 valeurs, ce qui n'est pas assez pour faire de bonnes approximations. De plus certaines valeurs semblent abérrantes au vu du graphe de probabilités pour la loi binomiale négative. \\
+Tout d'abord notons que l'échantillon pour le groupe 2 ne comporte que 168 valeurs, ce qui n'est pas assez pour faire de bonnes approximations graphiques ce qui explique la différence entre les valeurs obtenues par méthode graphique et méthode des moments. De plus certaines valeurs semblent abérrantes au vu du graphe de probabilités pour la loi binomiale négative. \\
 On remarque également que la majorité du  groupe deux est beaucoup plus rapide pour identifier le type du texte puisque la probabilité pour qu'il l'identifie en moins de 10 essais est supérieure à 0.90 contre un petit 0.25 pour le premier groupe.\\
 Mais le nombre de mots nécessaires pour identifier le type de texte varie beaucoup plus pour le groupe 2 puisque le nombre moyen de mots est 12 avec 90 pourcent du nombre de mots nécessaires inférieur à 10. Cela signifie que certaines personnes ont eu besoin de beaucoup de mots pour déterminer le type de texte.\\
 A l'inverse au sein du groupe 1, le nombre de mots nécessaires est plus centré autour de la valeur de 10, il y a très peu de personnes ayant eu besoin de beaucoup de mots.
+Les valeurs pour le groupe 2 sont donc plus étalées que celles pour le groupe 1.
 
 
 \end{enumerate}
@@ -364,6 +373,33 @@ A l'inverse au sein du groupe 1, le nombre de mots nécessaires est plus centré
 \item Choisir $p$, $n$, $m$ et $\alpha$. Simuler $m$ d'échantillons de taille $n$ de la loi ${\cal G}(p)$. Pour chacun d'entre eux, calculer l'intervalle de confiance asymptotique de seuil $\alpha$ pour $p$ obtenu dans la question 2.2. Comparer la proportion d'intervalle contenant la vraie valeur de $p$ à $1-\alpha$. Quel est l'impact du choix des valeurs de $p$, $n$, $m$ et $\alpha$ ?
 
 \vspace{3mm}
+
+Paramètre fixés pour cette simulation, $p=0.15$, $m=1000$, $\alpha = 0.05$\\
+
+\textbf{\textit{Ajouter ici le graphe 1 de la question 3.1}}
+
+On remarque que plus n est grand, plus la probabilité que  p appartienne à l'intervalle de confiance est proche de la valeur théorique, à savoir de $1-\alpha$, donc plus l'estimation est précise.
+
+\vspace{5mm}
+Paramètres fixés pour cette simulation, $n=1000$, $m=1000$, $\alpha =0.05$ \\
+\textbf{\textit{Ajouter ici le graphe 2 de la question 3.1}}
+
+Grâce à ce graphe on remarque que la probabilité de l'échantillon n'influe pas sur la probabilité de se tromper en affirmant que p appartient à l'intervalle de confiance. 
+
+\vspace{5mm}
+
+
+Paramètres fixés pour cette simulation, $n=1000$, $p=0.15$, $\alpha = 0.05$ \\
+\textbf{\textit{Ajouter ici le graphe 3 de la question 3.1}}
+
+\vspace{5mm}
+
+
+Paramètres fixés pour cette simulation, $n=10000$, $p=0.15$, $p=0.15$ \\
+
+\textbf{\textit{Ajouter ici le graphe 4 de la question 3.1}}
+
+Grâce au graphique, on voit que la probabilité que p appartienne à l'intervalle de confiance vaut $1-\alpha$. En augmentant alpha, on diminue le nombre de p dans l'intervalle de confiance.
 
 \item Vérification de la loi faible des grands nombres. Simuler $m$ échantillons de taille $n$ de la loi ${\cal G}(p)$. Calculer le nombre de fois où l'écart en valeur absolue entre la moyenne empirique et l'espérance de la loi simulée est supérieure à un $\epsilon$ à choisir. Faire varier $n$ et conclure.
 
