@@ -45,8 +45,10 @@ simu <- function(n)
   }
   return (l)
 }
+
 data = simu(10)
 m<-mean(data)
 std<-sqrt(var(data))
 hist(data, breaks=20, prob=TRUE)
 curve(dnorm(x, mean=m, sd=std), col="blue", lwd=2, add=TRUE)
+
