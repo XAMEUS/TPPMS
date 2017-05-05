@@ -91,17 +91,17 @@ listpg3 = c()
 for(r in seq(10, 10000, 500)) {
     pg2 = 0
     pg3 = 0
-    y = 1
+    y = 10
     for(j in 1:y) {
         res = simul_second(n, r, 0.5)
         reg<-lm(res$y~res$x)
-        pg2 = pg2 + 1 - 1/ n_reg$coefficients[2]
-        pg3 = pg3 + 1 + (r-1) / n_reg$coefficients[1]
+        pg2 = pg2 + 1 - 1/ reg$coefficients[2]
+        pg3 = pg3 + 1 + (r-1) / reg$coefficients[1]
     }
     pg2 = pg2 / y
     pg3 = pg3 / y
     listpg2 = c(listpg2, pg2)
     listpg3 = c(listpg3, pg3)
 }
-print(length(listpg3))
 plot(seq(10, 1000, 50), listpg2)
+plot(seq(10, 1000, 50), listpg3)
