@@ -373,17 +373,31 @@ En appliquant la méthode des moments au groupe 2 ( question 1.5), on trouve $\t
 \textbf{Réponse :\\}
 A la question précédente, nous avons calculé les différents paramètres nous permettant de déterminer l'espérance de chacune des lois et donc de déterminer le nombre moyen de fixations nécessaires pour identifier le type du texte lu. \\
 
-Pour le groupe 1, $E[X] = \frac{1}{p_{g_{1}}} = 6.631977 $ \\
-Pour le groupe 2, $E[X] = \frac{r_{g_{2}}}{p_{g_{2}}} = 12.22618 $, mais on a également $E[X] = \frac{\tilde{r_n}}{\tilde{\tilde{p_n}}} = 19.7381$  \\
 
-Intéressons nous à la probabilité que le nombre de fixations nécessaires pour déterminer le type de texte soit supérieur à 10, pour cela on compte le nombre de valeurs supérieures à 10 dans chacun des échantillons. \\
-Pour le groupe 1 : $P(x \geq 10) = 0.2511013 $ \\²
-Pour le groupe 2: $P(x \geq 10) = 0.9285714$\\
+Nous testons l'hypothèse $H_0$ "$m \geq 10$" contre $H_1$ "$m < 10$". \\
+On utilise le théorème central-limite et le test de student:\\
+$ W = \{n^{1/2} \frac{X_n - 10}{S'_n} > t_{n-1, 2\alpha}\}$
+La p-valeur est: $1 - F_{St(n-1)}(n^{1/2} \frac{X_n - 10}{S'_n})$
 
-Tout d'abord notons que l'échantillon pour le groupe 2 ne comporte que 168 valeurs, ce qui n'est pas assez pour faire de bonnes approximations graphiques ce qui explique la différence entre les valeurs obtenues par méthode graphique et méthode des moments. De plus certaines valeurs semblent abérrantes au vu du graphe de probabilités pour la loi binomiale négative. \\
-On remarque également que la majorité du  groupe deux est beaucoup plus rapide pour identifier le type du texte puisque la probabilité pour qu'il l'identifie en moins de 10 essais est supérieure à 0.90 contre un petit 0.25 pour le premier groupe.\\
-Mais le nombre de mots nécessaires pour identifier le type de texte varie beaucoup plus pour le groupe 2 puisque le nombre moyen de mots est 12 avec 90 pourcent du nombre de mots nécessaires inférieur à 10. Cela signifie que certaines personnes ont eu besoin de beaucoup de mots pour déterminer le type de texte.\\
-A l'inverse au sein du groupe 1, le nombre de mots nécessaires est plus centré autour de la valeur de 10, il y a très peu de personnes ayant eu besoin de beaucoup de mots.
+Pour le groupe 1, la moyenne empirique est: $6.631977 $ \\
+Pour le groupe 2, la moyenne empirique est $19.7381$  \\
+Pour la suite nous retiendrons la seconde valeur. \\
+
+Nous calculons la p-valeur avec la formule et la t.test. \\
+Pour le groupe 1, la p-valeur est: $2.2 10^{-16}$ \\
+Pour le groupe 2, la p-valeur est: $1$ \\
+
+Conclusion: les p-valeurs nous montrent que nous devons rejeter l'hypotèse $H_1$ pour le groupe 1, et l'hypothèse $H_0$ pour le groupe 2.
+
+
+% Intéressons nous à la probabilité que le nombre de fixations nécessaires pour déterminer le type de texte soit supérieur à 10, pour cela on compte le nombre de valeurs supérieures à 10 dans chacun des échantillons. \\
+% Pour le groupe 1 : $P(x \geq 10) = 0.2511013 $ \\²
+% Pour le groupe 2: $P(x \geq 10) = 0.9285714$\\
+%
+% Tout d'abord notons que l'échantillon pour le groupe 2 ne comporte que 168 valeurs, ce qui n'est pas assez pour faire de bonnes approximations graphiques ce qui explique la différence entre les valeurs obtenues par méthode graphique et méthode des moments. De plus certaines valeurs semblent abérrantes au vu du graphe de probabilités pour la loi binomiale négative. \\
+% On remarque également que la majorité du  groupe deux est beaucoup plus rapide pour identifier le type du texte puisque la probabilité pour qu'il l'identifie en moins de 10 essais est supérieure à 0.90 contre un petit 0.25 pour le premier groupe.\\
+% Mais le nombre de mots nécessaires pour identifier le type de texte varie beaucoup plus pour le groupe 2 puisque le nombre moyen de mots est 12 avec 90 pourcent du nombre de mots nécessaires inférieur à 10. Cela signifie que certaines personnes ont eu besoin de beaucoup de mots pour déterminer le type de texte.\\
+% A l'inverse au sein du groupe 1, le nombre de mots nécessaires est plus centré autour de la valeur de 10, il y a très peu de personnes ayant eu besoin de beaucoup de mots.
 \end{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Vérifications expérimentales à base de simulations}
