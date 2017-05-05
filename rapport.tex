@@ -359,14 +359,14 @@ Pour le groupe 2, nous utilisons la méthode de la question 1.4: \\
 On constate que la loi binomiale négative est un modèle plausible pour le second groupe. \\
 D'après la question $1.4(b)$, en traçant les points $\left( x, \dsp \frac{xP(x =X)}{P(X=x+1)} \right)$ on obtient une droite de pente $a = \dsp {1}{1-p} \Rightarrow p = 1 - \frac{1}{a}$ \\
 Numériquement on obtient $ p_{g_{2}} = 0.4089586 $\\
-Le maximum de vraisemblance est atteint pour $r=5$
+Grâce à nos scripts R, on sait que le maximum de vraisemblance est atteint pour $r=5$
 
 \textbf{\textit{Estimation avec la méthode des moments}}\\
-En appliquant la méthode des moments au groupe 1 (question 1.1), on trouve $\tilde{p_n} = 0.1538983$
+En appliquant la méthode des moments au groupe 1 (question 1.1), on trouve $\tilde{p_n} = 0.1538983$ \\
 
 \vspace{5mm}
 En appliquant la méthode des moments au groupe 2 ( question 1.5), on trouve $\tilde{p_n} = 0.2476021 $  et $\tilde{r_n} = 4.887194$ or $\tilde{r_n}$ doit être un entier donc $\tilde{r_n} = 5$
-
+D'après la question 2.2, $ IC = [0.2458528,0.260781]$
 
 
 \item Pour les deux jeux de données, estimer le nombre moyen de fixations nécessaires pour identifier le type du texte lu et estimer la probabilité que ce nombre soit supérieur à 10. Quelle conclusion générale tirer de cette analyse ? \\
@@ -380,8 +380,8 @@ $ W = \{n^{1/2} \frac{X_n - 10}{S'_n} > t_{n-1, 2\alpha}\}$
 La p-valeur est: $1 - F_{St(n-1)}(n^{1/2} \frac{X_n - 10}{S'_n})$
 
 Pour le groupe 1, la moyenne empirique est: $6.631977 $ \\
-Pour le groupe 2, la moyenne empirique est $19.7381$  \\
-Pour la suite nous retiendrons la seconde valeur. \\
+Pour le groupe 2, la moyenne empirique est $19.7381$ (méthode numérique) \\
+La méthode graphique donnait $12.22618$, qui n'est pas une valeur pertinente. Nous ne retiendrons pas cette dernière, mais la première. \\
 
 Nous calculons la p-valeur avec la formule et la t.test. \\
 Pour le groupe 1, la p-valeur est: $2.2\times10^{-16}$ \\
@@ -499,6 +499,11 @@ La convergence est très rapide, $n=100$ s'approche très bien de la loi normale
 \vspace{3mm}
 
 \item Choisir $r$, $p$, $n$ et $m$. Simuler $m$ échantillons de taille $n$ de la loi ${\cal BN}(r,p)$. Pour chaque échantillon, calculer les estimateurs des moments de $r$ et $p$, $\tilde{r}_n$ et $\tilde{p}_n$. Utilisez ces simulations pour évaluer le biais et l'erreur quadratique moyenne de ces estimateurs. Faire varier $n$ et commenter les résultats.
+
+\vspace{5mm}
+Nous avons évalué le biais et l'erreur quadratique de $\tilde{p_n}$ et $\tilde{r_n}$ avec les paramètres suivants : $p = 0.2$, $m=1000$, $r=5$
+
+\textbf{\textit{Graphes à inserer ici et à commenter (Je ne sais pas à quoi il ressemblent, normalement ils tendent vers 0, si c'est effectivement le cas dire que quand n augmente, le biais et l'erreur quadratique diminuent}}
 
 \end{enumerate}
 
