@@ -1,20 +1,115 @@
-enumerate <- function(X, FUN, ...) {
-  result <- vector("list", length(X))
-  for (i in seq_along(result)) {
-    tmp <- FUN(X[[i]], i, ...)
-    if (is.null(tmp))
-      result[i] <- list(NULL)
-    else
-      result[[i]] <- tmp
-  }
-  result
+####################
+# Partie 1
+####################
+
+n = 1000
+r = 1
+p = 0.1789
+echantillon = sort(rnbinom(n,r,p))
+for (i in 1:n) {
+  echantillon[i] = echantillon[i] + r
 }
 
-###############
+#Estimons p (1.1)
+print("Estimation de p selon la méthode des moments, et de maximum de vraisemblance")
+print(r / mean(echantillon))
+
+# Question 1.3
+n = 1000
+p = 0.1789
+x = rgeom(n, p)
+for(i in 1:n) {
+  x[i] = x[i] + 1
+}
+x = sort(x)
+y = x
+for (i in 1:length(x)-1) {
+  y[i] = log(1 - i/n)
+}
+x = head(x, -1)
+y = head(y, -1)
+plot(x, y)
+reg<-lm(y~x)
+lines(x, fitted.values(reg))
+print(reg)
+print(1 - exp(reg$coefficients[2]))
 
 
-groupe1 = scan("./echantillons/groupe1.txt", what=integer(), sep="\n")
-groupe2 = scan("./echantillons/groupe2.txt", what=integer(), sep="\n")
+#Estimons p (1.4)
+print("Estimation de p graphique")
+h<-function(x)
+{
+  return (log(1 - x))
+}
+
+y = echantillon
+for (i in 1:n)
+{
+  y[i] = h(i / n)
+}
+plot(echantillon, y)
+x = head(echantillon, -1)
+y = head(y, -1)
+reg<-lm(y~x)
+lines(x, fitted.values(reg))
+print(reg)
+print(1 - exp(reg$coefficients[2]))
+
+# Second cas
+
+n = 100
+r = 20
+p = 0.1
+simul_second <-function(n, r, p) {
+  echantillon = sort(rnbinom(n,r,p))
+  for (i in 1:n) {
+    echantillon[i] = echantillon[i] + r
+  }
+  liste_x = c()
+  liste_y = c()
+  
+  for (i in 1:length(echantillon)-1) {
+    if (length(echantillon[echantillon==echantillon[i]+1])) {
+      liste_x = c(liste_x, echantillon[i])
+      liste_y = c(liste_y, c(echantillon[i] * length(echantillon[echantillon==echantillon[i]])  / length(echantillon[echantillon==echantillon[i]+1])))
+    }
+  }
+  return(list(x=liste_x, y=liste_y))
+}
+res = simul_second(n, r, p)
+liste_x = res$x
+liste_y = res$y
+
+plot(liste_x, liste_y)
+n_reg<-lm(liste_y~liste_x)
+print(n_reg)
+lines(liste_x, fitted.values(n_reg))
+print("pg2")
+print(1 - 1/ n_reg$coefficients[2])
+print("pg3")
+print(1 + (r-1) / n_reg$coefficients[1])
+
+# Test de pg2 et pg3
+listpg2 = c()
+listpg3 = c()
+for(r in seq(10, 10000, 500)) {
+  pg2 = 0
+  pg3 = 0
+  y = 10
+  for(j in 1:y) {
+    res = simul_second(n, r, 0.5)
+    reg<-lm(res$y~res$x)
+    pg2 = pg2 + 1 - 1/ reg$coefficients[2]
+    pg3 = pg3 + 1 + (r-1) / reg$coefficients[1]
+  }
+  pg2 = pg2 / y
+  pg3 = pg3 / y
+  listpg2 = c(listpg2, pg2)
+  listpg3 = c(listpg3, pg3)
+}
+plot(seq(10, 1000, 50), listpg2)
+plot(seq(10, 1000, 50), listpg3)
+
 
 ####################
 # Partie 2
@@ -56,13 +151,6 @@ histoeff <- function(x, xlim=NULL, ...)
   hist(x, breaks=breaks, col=col, xlim=xlim, probability=T, ...)
 }
 
-#Histogramme à classe de même effectif groupe1
-#histoeff(groupe1)
-a0<-min(groupe1)-0.025*(max(groupe1)-min(groupe1))
-a5<-max(groupe1)+0.025*(max(groupe1)-min(groupe1))
-bornes<-seq(a0,a5,(a5-a0)/5)
-borneseff<-c(a0,quantile(groupe1,seq(1/5,4/5,1/5)),a5)
-hist(groupe1, prob=T, breaks=borneseff)
 
 # Histogramme à classe de même largeur groupe2
 n2 = length(groupe2_ordonne)
@@ -72,13 +160,7 @@ ak<-max(groupe2_ordonne)+0.025*(max(groupe2_ordonne)-min(groupe2_ordonne))
 bornes <- seq(a0, ak, (ak - a0)/k)
 hist(groupe2_ordonne, prob=T, breaks=bornes)
 
-#Histogramme à classe de même effectif groupe2
-#histoeff(groupe2)
-a0<-min(groupe2)-0.025*(max(groupe2)-min(groupe2))
-a5<-max(groupe2)+0.025*(max(groupe2)-min(groupe2))
-bornes<-seq(a0,a5,(a5-a0)/5)
-borneseff<-c(a0,quantile(groupe2,seq(1/5,4/5,1/5)),a5)
-hist(groupe2, prob=T, breaks=borneseff)
+
 
 # Question 2.2
 
@@ -121,14 +203,26 @@ lines(x, fitted.values(reg))
 coeff = coef(reg)
 p = 1 - exp(coeff[2])
 
+# calcul de E[X] pour le groupe 1
+E <- 1/p
+
 # calcul de l'intervalle de confiance au seuil de 5% d'après la 
-# formule de la question 1.2
+# formule de la question 1.2 pour le groupe 1
 alpha<- 0.05
 xn = mean(groupe1)
 n = length(groupe1)
 u_alpha = qnorm(1-alpha/2)
 borne_inf = 1/xn - u_alpha*sqrt((xn-1)/(n*xn**3))
 borne_sup = 1/xn + u_alpha*sqrt((xn -1)/(n*xn**3))
+
+# calcul de l'intervalle de confiance au seuil de 5% d'après la 
+# formule de la question 1.2 pour le groupe 2
+alpha<- 0.05
+xn = mean(groupe2)
+n = length(groupe2)
+u_alpha = qnorm(1-alpha/2)
+borne_inf = 5/xn - u_alpha*sqrt((xn-1)/(n*xn**3))
+borne_sup = 5/xn + u_alpha*sqrt((xn -1)/(n*xn**3))
 
 
 # groupe 2
@@ -153,7 +247,7 @@ graphe_proba_empirique <- function(groupe){
   x <- c()
   y <- c()
   for (i in 1: length(proba_empirique)-1){
-    if (proba_empirique[i+1] != 0){
+    if (proba_empirique[i+1] != 0 && proba_empirique[i] != 0){
       x = append(x, i)
       y = append(y, i*proba_empirique[i]/proba_empirique[i+1])
     }
@@ -165,4 +259,269 @@ graphe_proba_empirique <- function(groupe){
   
 }
 
-graphe_proba_empirique(groupe2)
+
+
+
+# Fonction permettant de calculer un p à partir du maximum de vraisemblance et 
+# d'un r donné
+
+calcul_maximum_vraisemblance_pour_p <- function(r, data){
+  return(r/mean(data))
+}
+
+# Fonction permettant de calculer la vraisemblance pour un r et un p donnés
+calcul_vraisemblance <- function(p, r, data){
+  vraisemblance <- 1
+  for (i in 1:length(data)){
+    vraisemblance <- vraisemblance*(choose(data[i]-1, r-1)*(1-p)**(data[i]-r)*p**r)
+  }
+  return(vraisemblance)
+}
+
+# Fonction permettant de déterminer r
+# pour le groupe 2
+
+estimer_p_r<-function(data)
+{
+  meilleur_r = 1
+  p_associe = calcul_maximum_vraisemblance_pour_p(meilleur_r, data)
+  vraisemblance = calcul_vraisemblance(p_associe, meilleur_r, data)
+  for (i in 1:min(data)) {
+    nouveau_p = calcul_maximum_vraisemblance_pour_p(i, data)
+    n_vraisemblance = calcul_vraisemblance(nouveau_p, i, data)
+    if(vraisemblance < n_vraisemblance) {
+      meilleur_r = i
+      p_associe = nouveau_p
+      vraisemblance = n_vraisemblance
+      print(i)
+      print(n_vraisemblance)
+    }
+  }
+  return (c(meilleur_r, p_associe))
+}
+
+estimer_p_r(groupe1)
+
+# calcul de p pour le groupe 2
+# suivant la loi binomiale négative
+
+p <- 1 - 1/graphe_proba_empirique(groupe2)[2]
+
+# Calcul de E[X] pour le groupe 2
+E <- 5/p
+
+# Probabilité que le nombre de fixations soit
+# supérieur à 10 pour groupe 1
+p_10 <- length(groupe1[groupe1>=10])/length(groupe1)
+
+
+# Probabilité que le nombre de fixations soit
+# supérieur à 10 pour groupe 2
+p_10 <- length(groupe2[groupe2>=10])/length(groupe2)
+
+
+############
+# Partie 3 #
+############
+
+
+# Fonction permettant de calculer l'intervalle de confiance de seuil alpha
+# pour une loi géométrique sur un échantillon de taille n
+intervalle_confiance <- function(alpha, n, echantillon){
+  xn = mean(echantillon)
+  u_alpha = qnorm(1-alpha/2)
+  if (xn >= 1){
+    borne_inf = 1/xn - u_alpha*sqrt((xn-1)/(n*xn**3))
+    borne_sup = 1/xn + u_alpha*sqrt((xn-1)/(n*xn**3))
+    intervalle <- c(borne_inf, borne_sup)
+    return(intervalle)
+  }
+  return(-1)
+}
+
+echantillon <- rgeom(10, 0.15)
+intervalle <- intervalle_confiance(0.05, 10, echantillon )
+
+
+# Question 3.1
+# On simule une 100 échantillons de taille 200 pour la loi géometrique 
+# de paramètre p = 0.15
+simulation_loi_geometrique <- function(n, m, p, alpha){
+  compteur <- 0
+  for (i in 1:m){
+    echantillon <- rgeom(n,p)+1
+    intervalle <- intervalle_confiance(alpha, n, echantillon)
+    if (intervalle[1] <= p && p <= intervalle[2]){
+      compteur <- compteur + 1
+    }
+  }
+  return(compteur/m)
+}
+
+compteur <- simulation_loi_geometrique(100000, 100, 0.1, 0.05)
+print(compteur)
+
+# Simulation à n variable
+graphe_simulation_n <- function(m, p, alpha){
+  x <- c()
+  y <- c()
+  for (i in 10:3000) {
+    x<- append(x, i)
+    y<- append(y, simulation_loi_geometrique(i, m, p, alpha))
+  }
+  plot(x, y, xlab = "nombre d'échantillons", ylab="couverture de p", main = "Couverture de p en fonction du nombre d'échantillons")
+}
+
+# Simulation à p variable
+graphe_simulation_p <- function(n, m, alpha){
+  x <- seq(0.01, 0.5, 0.01)
+  y <- c()
+  for (i in 1: length(x)){
+    y <- append(y, simulation_loi_geometrique(n, m, x[i], alpha))
+  }
+  plot(x, y, xlab="probabilité", ylim=c(0, 1), ylab="couverture de p", main ="Couverture de p en fonction de la probabilité")
+}
+
+#simulation a m variable
+graphe_simulation_m<-function(n,p,alpha) {
+  x<-c()
+  y<-c()
+  for (i in 1:1000) {
+    x <- append(x, i)
+    y <- append(y, simulation_loi_geometrique(n, i, p, alpha))
+  }
+  plot(x, y, xlab ="nombre de répétitions", ylab="couverture de p", main = "Couverture de p en fonction du nombre de répétitions")
+}
+
+#simulation à alpha variable
+graphe_simulation_alpha <- function(n, m, p){
+  x <- seq(0.01, 0.3, 0.01)
+  y <- c()
+  for (i in 1: length(x)){
+    y <- append(y, simulation_loi_geometrique(n, m, p, x[i]))
+  }
+  plot(x, y, xlab="probabilité", ylab="couverture de p", main ="Couverture de p en fonction de alpha")
+}
+
+#graphe 1
+graphe_simulation_n(1000, 0.15, 0.05)
+
+#graphe 2
+graphe_simulation_p(1000, 1000, 0.05)
+
+#graphe 3 
+graphe_simulation_m(1000, 0.15, 0.05)
+
+#graphe 4
+graphe_simulation_alpha(10000, 1000, 0.15)
+
+simu = simulation_loi_geometrique(100, 100, 0.15, 0.05) 
+print(simu)
+
+
+# q3.2
+
+q3 <- function(n, e) {
+  m = 1000
+  p = 0.1789
+  l = numeric(m)
+  for (i in 1:m)
+  {
+    l[i] = sum(rgeom(n, p)) + n
+  }
+  c = 0
+  for (i in 1:m)
+  {
+    if ((abs(l[i] / n - 1 / p) >= e))
+    {
+      c = c + 1
+    }
+  }
+  return (c/m)
+}
+
+x = seq(1, 100)
+y = x
+e = 1.333333
+for (i in seq(1, 100))
+{
+  y[i] = q3(x[i], e)
+}
+plot(x, y)
+title(main = expression(epsilon ~ " = " ~ 1.333333))
+
+# q3.3
+
+simu <- function(n)
+{
+  m = 1000
+  p = 0.1789
+  l = numeric(m)
+  for (i in 1:m)
+  {
+    l[i] = mean(rgeom(n, p))+1
+  }
+  return (l)
+}
+
+data = simu(1000)
+m<-mean(data)
+std<-sqrt(var(data))
+hist(data, breaks=20, prob=TRUE, main=expression(n ~ " = " ~ 1000))
+curve(dnorm(x, mean=m, sd=std), col="blue", lwd=2, add=TRUE)
+
+#Question 3.4
+question3_4<-function(r,p,n,m){
+  tab_estim_p<-c()
+  tab_estim_r<-c()
+  
+  differentiel_moyenne_p<-c()
+  differentiel_moyenne_r<-c()
+  
+  quadra_p<-c()
+  quadra_r<-c()
+  
+  for (i in (1:m)){
+    simulation<-rnbinom(n,r,p)
+    moyenne<-mean(simulation)
+    variance<-var(simulation)
+    
+    tab_estim_r[i]<-moyenne**2/(moyenne+variance)
+    tab_estim_p[i]<-moyenne/(moyenne+variance)
+    
+    differentiel_moyenne_p[i]<-tab_estim_p[i]-p
+    differentiel_moyenne_r[i]<-tab_estim_r[i]-r
+    
+    quadra_p[i]<-differentiel_moyenne_p[i]**2
+    quadra_r[i]<-differentiel_moyenne_r[i]**2
+  }
+  biais_p<-mean(differentiel_moyenne_p)
+  biais_r<-mean(differentiel_moyenne_r)
+  
+  err_quadra_p<-mean(quadra_p)
+  err_quadra_r<-mean(quadra_r)
+  return(c(biais_p,biais_r,err_quadra_p,err_quadra_r))
+}
+
+tableau_p<-c()
+tableau_r<-c()
+tableau_errp<-c()
+tableau_errr<- c()
+#attach(mtcars)
+#par(mfrow=c(4,1))
+tab_indice<-seq(1,100,1)
+tab_indice<-append(tab_indice,seq(100,200,2))
+
+for (i in tab_indice){
+  calcul <- question3_4(2,0.3,i,100)
+  tableau_p<-append(tableau_p,calcul[1])
+  tableau_r<-append(tableau_r,calcul[2])
+  tableau_errp<- append(tableau_errp,calcul[3])
+  tableau_errr<- append(tableau_errr,calcul[4])
+}
+
+plot(tab_indice, tableau_p, main = "biais de p",xlab="",ylab = "")
+plot(tab_indice, tableau_r, main = "biais de r",xlab="",ylab = "")
+plot(tab_indice, tableau_errp, main = "erreure quadratique de p",xlab="",ylab = "")
+plot(tab_indice, tableau_errr, main = "erreure quadratique de r",xlab="",ylab = "")
+
